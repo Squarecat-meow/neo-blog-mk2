@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Theme } from '@radix-ui/themes';
+import Image from 'next/image';
+import Background from '../public/images/background.jpg';
 
 export const metadata: Metadata = {
   title: '요즈미나의 므아지경',
@@ -15,7 +17,15 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <Theme>{children}</Theme>
+        <Theme>
+          {children}
+          <div id="portal" className="fixed top-0 left-0" />
+          <Image
+            src={Background}
+            alt="블로그 배경"
+            className="fixed top-0 left-0 -z-10 w-screen h-screen opacity-70 object-cover pointer-events-none"
+          />
+        </Theme>
       </body>
     </html>
   );
