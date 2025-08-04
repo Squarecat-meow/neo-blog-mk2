@@ -44,7 +44,7 @@ export default function RootLayout({
           <Image
             src={Background}
             alt="블로그 배경"
-            className="fixed top-0 left-0 -z-10 w-screen h-screen opacity-70 object-cover pointer-events-none"
+            className="fixed top-0 left-0 -z-10 w-screen h-screen opacity-50 object-cover pointer-events-none"
           />
         </Theme>
       </body>

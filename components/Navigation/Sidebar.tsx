@@ -8,7 +8,7 @@ export default function Sidebar() {
   };
   return (
     <nav className="w-1/5 sticky top-0 h-fit">
-      <div className="w-full flex flex-col lg:flex-row justify-between items-center space-x-6 py-4 pr-2 border-b border-black">
+      <div className="w-full flex flex-col lg:flex-row justify-between items-center space-x-6 py-6 pr-2 border-b border-black">
         <Image
           src={MockProfile}
           alt="프로필사진 목데이터"
@@ -21,7 +21,7 @@ export default function Sidebar() {
           </p>
         </div>
       </div>
-      <div className="py-4 space-y-2">
+      <div className="py-4 space-y-4">
         <p className="text-2xl">카테고리</p>
         {Object.entries(mock).map(([key, value], index) => (
           <ul key={index}>
