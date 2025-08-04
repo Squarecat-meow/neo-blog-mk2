@@ -39,7 +39,7 @@ export default function RootLayout({
             <h1 className="text-5xl font-light">요즈미나의 므아지경</h1>
           </header>
           <Navbar />
-          {children}
+          <main className="w-3/4">{children}</main>
           <div id="portal" className="fixed top-0 left-0" />
           <Image
             src={Background}

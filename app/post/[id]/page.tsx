@@ -1,6 +1,6 @@
 export default function Page() {
   return (
-    <article className="w-5/6 flex flex-col">
+    <article className="w-5/6 flex flex-col mt-6">
       <h1 className="text-5xl font-noto-serif text-center mb-4">
         블로그 제목 테스트입니다
       </h1>
