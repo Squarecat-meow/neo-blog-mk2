@@ -1,2 +1,6 @@
 @import 'tailwindcss';
 @import '@radix-ui/themes/styles.css';
+
+@theme {
+  --font-noto-serif: var(--font-noto-serif), 'serif';
+}
