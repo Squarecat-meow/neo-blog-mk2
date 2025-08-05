@@ -13,3 +13,29 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Post {
+  id              Int       @id @default(autoincrement())
+  category        Category  @relation(fields: [categoryId], references: [id])
+  categoryId      Int
+  title           String
+  thumbnailImgUrl String?
+  body            String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime?
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  title String
+  posts Post[]
+
+  subCategories SubCategories[]
+}
+
+model SubCategories {
+  id             Int      @id @default(autoincrement())
+  title          String
+  categoryId     Int
+  parentCategory Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+}
