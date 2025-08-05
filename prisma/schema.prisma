@@ -14,6 +14,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id            String  @id @default(cuid())
+  userId        String  @unique
+  password      String
+  nickname      String?
+  profileImgUrl String?
+  introduction  String?
+}
+
 model Post {
   id              Int       @id @default(autoincrement())
   category        Category  @relation(fields: [categoryName], references: [name])
