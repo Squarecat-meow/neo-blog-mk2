@@ -3,19 +3,18 @@
 import Button from '@/components/Button/Button';
 import Input from '@/components/Input/Input';
 import Label from '@/components/Label/Label';
+import { ILogin } from '@/types/UserType';
 import Link from 'next/link';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-interface ILoginForm {
-  id: string;
-  password: string;
-}
-
 export default function Page() {
-  const { register, handleSubmit } = useForm<ILoginForm>({ mode: 'onChange' });
+  const { register, handleSubmit } = useForm<ILogin>({ mode: 'onChange' });
 
-  const onSubmit: SubmitHandler<ILoginForm> = (e) => {
-    console.log(e);
+  const onSubmit: SubmitHandler<ILogin> = async (e) => {
+    const res = await fetch('/api/users/', {
+      method: 'POST',
+      body: JSON.stringify(e),
+    });
   };
   return (
     <main className="grid place-items-center">
@@ -48,7 +47,7 @@ export default function Page() {
           로그인
         </Button>
       </form>
-      <Link href={'/signin'} className="mt-4 hover:border-b">
+      <Link href={'/signup'} className="mt-4 hover:border-b">
         회원가입
       </Link>
     </main>
