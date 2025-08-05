@@ -25,7 +25,7 @@ export default function PostCard({ post }: { post: IPost }) {
                 : dateParser(post.createdAt)}
             </span>
             <span className="font-light"> | </span>
-            <span className="font-light text-sm">{post.category}</span>
+            <span className="font-light text-sm">{post.categoryName}</span>
           </div>
         </div>
         <p>{post.body}</p>
