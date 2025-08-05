@@ -4,7 +4,7 @@ export interface ILogin {
 }
 
 export interface ISignup {
-  inviteCode: number;
+  inviteCode: string;
   id: string;
   password: string;
   passwordConfirm: string;
