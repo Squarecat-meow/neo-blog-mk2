@@ -18,7 +18,7 @@ export default function Page() {
   } = useForm<ISignup>({ mode: 'onChange' });
 
   const onSubmit: SubmitHandler<ISignup> = async (e) => {
-    const res = await fetch('/api/signup', {
+    const res = await fetch('/api/users/signup', {
       method: 'POST',
       body: JSON.stringify(e),
     });
@@ -26,7 +26,7 @@ export default function Page() {
     switch (res.status) {
       case 400:
         setError('inviteCode', { message: '초대코드가 맞지 않습니다.' });
-      default:
+      case 201:
         router.push('/login');
     }
   };

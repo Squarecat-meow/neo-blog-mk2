@@ -5,16 +5,34 @@ import Input from '@/components/Input/Input';
 import Label from '@/components/Label/Label';
 import { ILogin } from '@/types/UserType';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 export default function Page() {
-  const { register, handleSubmit } = useForm<ILogin>({ mode: 'onChange' });
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<ILogin>({ mode: 'onChange' });
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<ILogin> = async (e) => {
-    const res = await fetch('/api/users/', {
+    const res = await fetch('/api/users/login', {
       method: 'POST',
       body: JSON.stringify(e),
     });
+
+    const data = await res.json();
+
+    switch (res.status) {
+      case 400:
+        setError('root', { message: data.error });
+      case 404:
+        setError('root', { message: data.error });
+      case 200:
+        router.push('/');
+    }
   };
   return (
     <main className="grid place-items-center">
@@ -31,7 +49,7 @@ export default function Page() {
             {...register('id')}
           />
         </Label>
-        <Label label="비밀번호" htmlFor="password">
+        <Label label="비밀번호" htmlFor="password" className="relative">
           <Input
             placeholder="비밀번호를 입력해주세요"
             id="password"
@@ -39,6 +57,11 @@ export default function Page() {
             className="font-medium"
             {...register('password')}
           />
+          {errors.root && (
+            <span className="absolute -bottom-5 w-full text-right text-sm text-red-600">
+              {errors.root.message}
+            </span>
+          )}
         </Label>
         <Button
           type="submit"
