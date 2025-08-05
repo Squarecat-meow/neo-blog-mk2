@@ -40,6 +40,7 @@ export default function RootLayout({
           </header>
           <Navbar />
           <main className="w-3/4">{children}</main>
+          <footer className="w-full h-24"></footer>
           <div id="portal" className="fixed top-0 left-0" />
           <Image
             src={Background}
