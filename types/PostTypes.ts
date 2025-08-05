@@ -1,9 +1,9 @@
 export interface IPost {
   id: number;
-  category: string;
+  categoryName: string;
   title: string;
-  thumbnailImgUrl?: string;
+  thumbnailImgUrl: string | null;
   body: string;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt: Date | null;
 }

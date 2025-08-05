@@ -16,8 +16,8 @@ datasource db {
 
 model Post {
   id              Int       @id @default(autoincrement())
-  category        Category  @relation(fields: [categoryId], references: [id])
-  categoryId      Int
+  category        Category  @relation(fields: [categoryName], references: [name])
+  categoryName    String
   title           String
   thumbnailImgUrl String?
   body            String
@@ -27,7 +27,7 @@ model Post {
 
 model Category {
   id    Int    @id @default(autoincrement())
-  title String
+  name  String @unique
   posts Post[]
 
   subCategories SubCategories[]
@@ -35,7 +35,7 @@ model Category {
 
 model SubCategories {
   id             Int      @id @default(autoincrement())
-  title          String
+  name           String   @unique
   categoryId     Int
   parentCategory Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 }

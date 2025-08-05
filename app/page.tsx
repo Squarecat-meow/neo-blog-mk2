@@ -5,7 +5,7 @@ import { IPost } from '@/types/PostTypes';
 export default async function Home() {
   const prisma = prismaClient;
 
-  const posts = (await prisma.post.findMany()) as IPost[];
+  const posts = await prisma.post.findMany();
 
   return (
     <main className="flex">
