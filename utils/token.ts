@@ -31,3 +31,18 @@ export async function verifyToken(token: string) {
 
   return payload;
 }
+
+export async function isTokenValid(token: string) {
+  const secret = jose.base64url.decode(process.env.JWT_SECRET!);
+  const { payload } = await jose.jwtVerify(token, secret);
+  const currentTime = Math.floor(Date.now() / 1000);
+
+  try {
+    if (payload.exp && payload.exp > currentTime) {
+      return true;
+    }
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}

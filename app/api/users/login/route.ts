@@ -3,6 +3,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
 import prismaClient from '@/lib/prisma';
 import { publishAccessToken, publishRefreshToken } from '@/utils/token';
+import {
+  ACCESSTOKEN_EXPIRES,
+  REFRESHTOKEN_EXPIRES,
+} from '@/constant/tokenTime';
 
 const prisma = prismaClient;
 
@@ -40,15 +44,19 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    console.log(updatedUser);
-
-    const response = NextResponse.json({ success: true });
+    const response = NextResponse.json({
+      success: true,
+      user: {
+        userId: updatedUser.userId,
+        nickname: updatedUser.nickname,
+      },
+    });
 
     response.cookies.set('accessToken', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 15 * 60,
+      maxAge: ACCESSTOKEN_EXPIRES,
       path: '/',
     });
 
@@ -56,7 +64,7 @@ export async function POST(req: NextRequest) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60,
+      maxAge: REFRESHTOKEN_EXPIRES,
       path: '/',
     });
 
