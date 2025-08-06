@@ -3,6 +3,7 @@
 import Button from '@/components/Button/Button';
 import Input from '@/components/Input/Input';
 import Label from '@/components/Label/Label';
+import { useUserStore } from '@/store/UserStore';
 import { ILogin } from '@/types/UserType';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -16,6 +17,7 @@ export default function Page() {
     formState: { errors },
   } = useForm<ILogin>({ mode: 'onChange' });
   const router = useRouter();
+  const { addCurrentUser } = useUserStore();
 
   const onSubmit: SubmitHandler<ILogin> = async (e) => {
     const res = await fetch('/api/users/login', {
@@ -31,6 +33,7 @@ export default function Page() {
       case 404:
         return setError('root', { message: data.error });
       case 200:
+        addCurrentUser(data.currentUser);
         return router.push('/');
     }
   };
