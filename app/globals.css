@@ -2,5 +2,6 @@
 @import '@radix-ui/themes/styles.css';
 
 @theme {
+  --font-sans: var(--font-plex), 'sans-serif';
   --font-noto-serif: var(--font-noto-serif), 'serif';
 }
