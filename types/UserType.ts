@@ -14,7 +14,6 @@ export interface ISignup {
 export interface IUser {
   id: number;
   userId: string;
-  password: string;
   nickname: string;
   profileImgUrl: string | null;
   introduction: string | null;
