@@ -27,11 +27,11 @@ export default function Page() {
 
     switch (res.status) {
       case 400:
-        setError('root', { message: data.error });
+        return setError('root', { message: data.error });
       case 404:
-        setError('root', { message: data.error });
+        return setError('root', { message: data.error });
       case 200:
-        router.push('/');
+        return router.push('/');
     }
   };
   return (
