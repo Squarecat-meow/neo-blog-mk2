@@ -31,7 +31,7 @@ export default function Page() {
     }
   };
   return (
-    <main className="grid place-items-center">
+    <main className="grid place-items-center h-full">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-2 gap-8 mt-8"

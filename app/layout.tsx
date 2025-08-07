@@ -32,14 +32,14 @@ export default function RootLayout({
     <html lang="ko" className={`${plex.variable} ${notoSerif.variable}`}>
       <body>
         <Theme
-          className={`${plex.className} w-full flex flex-col items-center`}
+          className={`${plex.className} w-full h-screen flex flex-col items-center`}
         >
           <header className="w-full lg:w-3/4 pb-6 text-center border-b border-black">
             <div className="h-24"></div>
             <h1 className="text-5xl font-light">요즈미나의 므아지경</h1>
           </header>
           <Navbar />
-          <main className="w-3/4">{children}</main>
+          <main className="flex-1 w-3/4">{children}</main>
           <footer className="w-full h-24"></footer>
           <div id="portal" className="fixed top-0 left-0" />
           <Image
