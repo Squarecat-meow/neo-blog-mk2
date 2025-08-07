@@ -1,4 +1,4 @@
-import PostCard from '@/components/Card/PostCard';
+import PostCard from '@/components/Primitives/Card/PostCard';
 import prismaClient from '@/lib/prisma';
 import { IPost } from '@/types/PostTypes';
 

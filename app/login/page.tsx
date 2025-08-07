@@ -1,8 +1,8 @@
 'use client';
 
-import Button from '@/components/Button/Button';
-import Input from '@/components/Input/Input';
-import Label from '@/components/Label/Label';
+import Button from '@/components/Primitives/Button/Button';
+import Input from '@/components/Primitives/Input/Input';
+import Label from '@/components/Primitives/Label/Label';
 import { useUserStore } from '@/store/UserStore';
 import { ILogin } from '@/types/UserType';
 import Link from 'next/link';
