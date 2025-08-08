@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ProfileButton } from '../Primitives/Button/ProfileButton';
+import { ProfileButton } from './ProfileButton';
 
 export default function Navbar() {
   return (
