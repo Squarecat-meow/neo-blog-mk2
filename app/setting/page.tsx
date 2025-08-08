@@ -1,4 +1,4 @@
-import MyPageForm from '@/components/MyPage/MyPageForm';
+import SettingForm from '@/components/Setting/SettingForm';
 import { IUser } from '@/types/UserType';
 
 export default async function Page() {
@@ -7,7 +7,7 @@ export default async function Page() {
 
   return (
     <section>
-      <MyPageForm user={userInfo} />
+      <SettingForm user={userInfo} />
     </section>
   );
 }

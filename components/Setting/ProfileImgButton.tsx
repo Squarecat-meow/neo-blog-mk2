@@ -31,14 +31,11 @@ export default function ProfileImgButton({
         className="w-full rounded-full relative cursor-pointer border aspect-square flex justify-center items-center transition-colors hover:bg-slate-500/30 z-[1]"
       >
         {user.profileImgUrl || profileImgObjectUrl ? (
-          <div className="relative size-full flex justify-center items-center">
-            <span className="absolute">클릭해서 이미지 변경</span>
-            <img
-              className="object-cover size-full rounded-full mix-blend-darken"
-              src={profileImgObjectUrl || user.profileImgUrl || ''}
-              alt="유저 프로필 사진"
-            />
-          </div>
+          <img
+            className="object-cover size-full rounded-full mix-blend-darken"
+            src={profileImgObjectUrl || user.profileImgUrl || ''}
+            alt="유저 프로필 사진"
+          />
         ) : (
           <Camera size={48} strokeWidth={0.5} />
         )}

@@ -10,7 +10,7 @@ export default function MyPageForm({ user }: { user: IUser }) {
   console.log(imageUrl);
 
   return (
-    <section className="grid grid-cols-3">
+    <section className="w-xl grid grid-cols-3">
       <article className="p-4 border-r space-y-4">
         <h1 className="text-2xl text-center font-light">프로필 사진</h1>
         <ProfileImgButton user={user} callback={setImageUrl} />

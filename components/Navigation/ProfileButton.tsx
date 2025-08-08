@@ -63,7 +63,7 @@ function UserChip({ user }: { user: IUser }) {
             <Link href={'/writer'}>New Post</Link>
           </DropdownMenu.Item>
           <DropdownMenu.Item className="hover:font-normal text-black outline-none">
-            <Link href={'/mypage'}>My Page</Link>
+            <Link href={'/setting'}>Setting</Link>
           </DropdownMenu.Item>
           <DropdownMenu.Separator className="border-b border-black my-2" />
           <DropdownMenu.Item className="hover:font-normal text-black outline-none">
