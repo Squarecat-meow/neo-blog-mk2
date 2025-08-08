@@ -1,0 +1,58 @@
+import { IPost } from '@/types/PostTypes';
+
+export const mockPosts: IPost[] = [
+  {
+    id: 1,
+    categoryName: '개발',
+    title: 'React 18의 새로운 기능들 정리',
+    thumbnailImgUrl: 'https://picsum.photos/400/300?random=1',
+    body: 'React 18에서 추가된 Concurrent Features와 Suspense에 대해 알아보겠습니다...',
+    createdAt: new Date('2024-01-15'),
+    updatedAt: new Date('2024-01-16'),
+  },
+  {
+    id: 2,
+    categoryName: '일상',
+    title: '첫 동거 1개월 후기',
+    thumbnailImgUrl: null,
+    body: '개발자 커플의 동거 생활은 어떨까요? 서로 코딩하는 모습을 보며...',
+    createdAt: new Date('2024-02-01'),
+    updatedAt: null,
+  },
+  {
+    id: 3,
+    categoryName: '개발',
+    title: 'TypeScript 5.0 업데이트 체험기',
+    thumbnailImgUrl: 'https://picsum.photos/400/300?random=3',
+    body: '프로젝트를 TypeScript 5.0으로 마이그레이션하면서 겪은 경험들을 공유합니다...',
+    createdAt: new Date('2024-02-10'),
+    updatedAt: new Date('2024-02-11'),
+  },
+  {
+    id: 4,
+    categoryName: '커플',
+    title: '함께 사이드 프로젝트 진행하기',
+    thumbnailImgUrl: 'https://picsum.photos/400/300?random=4',
+    body: '연인과 함께 개발 프로젝트를 진행하는 것의 장단점과 팁들을 정리해봤어요...',
+    createdAt: new Date('2024-02-20'),
+    updatedAt: null,
+  },
+  {
+    id: 5,
+    categoryName: '일상',
+    title: '카페에서 페어 프로그래밍 데이트',
+    thumbnailImgUrl: 'https://picsum.photos/400/300?random=5',
+    body: '주말에 카페 가서 함께 코딩하는 우리만의 데이트 스타일을 소개합니다...',
+    createdAt: new Date('2024-03-01'),
+    updatedAt: new Date('2024-03-02'),
+  },
+  {
+    id: 6,
+    categoryName: '개발',
+    title: 'Next.js 14 App Router 마이그레이션 경험담',
+    thumbnailImgUrl: null,
+    body: 'Pages Router에서 App Router로 마이그레이션하면서 마주친 이슈들과 해결 과정...',
+    createdAt: new Date('2024-03-15'),
+    updatedAt: null,
+  },
+];

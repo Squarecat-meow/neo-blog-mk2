@@ -1,11 +1,12 @@
 import PostCard from '@/components/Primitives/Card/PostCard';
 import prismaClient from '@/lib/prisma';
-import { IPost } from '@/types/PostTypes';
+import { mockPosts } from '@/mock/mockdata';
 
 export default async function Home() {
   const prisma = prismaClient;
 
-  const posts = await prisma.post.findMany();
+  // const posts = await prisma.post.findMany();
+  const posts = mockPosts;
 
   return (
     <main className="flex">

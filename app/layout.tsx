@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Theme } from '@radix-ui/themes';
-import Image from 'next/image';
-import Background from '../public/images/background.jpg';
 import { IBM_Plex_Sans_KR, Noto_Serif_KR } from 'next/font/google';
 import Navbar from '@/components/Navigation/Navbar';
 
@@ -34,19 +32,10 @@ export default function RootLayout({
         <Theme
           className={`${plex.className} w-full h-screen flex flex-col items-center`}
         >
-          <header className="w-full lg:w-3/4 pb-6 text-center border-b border-black">
-            <div className="h-24"></div>
-            <h1 className="text-5xl font-light">요즈미나의 므아지경</h1>
-          </header>
           <Navbar />
           <main className="flex-1 w-3/4">{children}</main>
           <footer className="w-full h-24"></footer>
           <div id="portal" className="fixed top-0 left-0" />
-          <Image
-            src={Background}
-            alt="블로그 배경"
-            className="fixed top-0 left-0 -z-10 w-screen h-screen opacity-50 object-cover pointer-events-none"
-          />
         </Theme>
       </body>
     </html>
