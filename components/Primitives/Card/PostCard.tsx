@@ -1,22 +1,27 @@
 import { IPost } from '@/types/PostTypes';
 import dateParser from '@/utils/dateParser';
+import { Camera } from 'lucide-react';
 import Link from 'next/link';
 
 export default function PostCard({ post }: { post: IPost }) {
   return (
     <Link
       href={`/post/${post.id}`}
-      className="flex flex-col space-x-0 @xs:flex-row @xs:space-x-4"
+      className="flex flex-col rounded-lg border border-slate-200"
     >
-      {post.thumbnailImgUrl && (
+      {post.thumbnailImgUrl ? (
         <img
           src={post.thumbnailImgUrl}
           alt="포스트 썸네일"
-          className="h-32 aspect-square object-cover"
+          className="h-36 aspect-video object-cover rounded-t-lg"
         />
+      ) : (
+        <div className="h-36 aspect-video bg-slate-200 rounded-t-lg grid place-items-center">
+          <Camera className="stroke-slate-300" size={48} />
+        </div>
       )}
-      <div>
-        <div className="mb-4">
+      <div className="mt-6 p-3">
+        <div className="mb-2">
           <header className="font-noto-serif text-2xl">{post.title}</header>
           <div className="space-x-2">
             <span className="font-light">
@@ -28,7 +33,7 @@ export default function PostCard({ post }: { post: IPost }) {
             <span className="font-light text-sm">{post.categoryName}</span>
           </div>
         </div>
-        <p>{post.body}</p>
+        <p className="break-keep">{post.body}</p>
       </div>
     </Link>
   );
