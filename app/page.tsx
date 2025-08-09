@@ -1,3 +1,4 @@
+import GithubHeatmap from '@/components/Heatmap/Heatmap';
 import PostCard from '@/components/Primitives/Card/PostCard';
 import prismaClient from '@/lib/prisma';
 import { mockPosts } from '@/mock/mockdata';
@@ -10,7 +11,11 @@ export default async function Home() {
 
   return (
     <main className="flex">
-      <section className="w-3/4">
+      <section className="w-full mt-2">
+        <article className="grid grid-cols-1 xl:grid-cols-2 gap-2">
+          <GithubHeatmap username="Squarecat-meow" />
+          <GithubHeatmap username="yunochi" />
+        </article>
         {posts.length !== 0 ? (
           <>
             <section className="grid grid-rows-2 border-b divide-y">
@@ -33,7 +38,6 @@ export default async function Home() {
           <h1>포스트가 없어요!</h1>
         )}
       </section>
-      <section className="w-1/4 border-l p-6">미스키 넣기</section>
     </main>
   );
 }
