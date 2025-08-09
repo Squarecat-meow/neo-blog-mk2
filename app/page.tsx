@@ -16,27 +16,13 @@ export default async function Home() {
           <GithubHeatmap username="Squarecat-meow" />
           <GithubHeatmap username="yunochi" />
         </article>
-        {posts.length !== 0 ? (
-          <>
-            <section className="grid grid-rows-2 border-b divide-y">
-              {posts.slice(0, 2).map((post) => (
-                <div key={post.id} className="p-4 @container">
-                  <PostCard post={post} />
-                </div>
-              ))}
-            </section>
-            <section className="grid grid-cols-3 divide-x">
-              {posts.length > 2 &&
-                posts.slice(2, 5).map((post) => (
-                  <div key={post.id} className="p-4">
-                    <PostCard key={post.id} post={post} />
-                  </div>
-                ))}
-            </section>
-          </>
-        ) : (
-          <h1>포스트가 없어요!</h1>
-        )}
+        <article className="grid grid-cols-3 gap-12">
+          {posts.length !== 0 ? (
+            posts.map((el) => <PostCard key={el.id} post={el} />)
+          ) : (
+            <h1>포스트가 없어요!</h1>
+          )}
+        </article>
       </section>
     </main>
   );
