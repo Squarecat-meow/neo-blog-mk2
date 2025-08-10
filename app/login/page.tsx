@@ -40,6 +40,7 @@ export default function Page() {
   return (
     <section className="grid place-items-center h-full">
       <div className="flex flex-col items-center">
+        <h1 className="text-4xl font-noto-serif font-light">로그인</h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col items-center gap-8 mt-8"
