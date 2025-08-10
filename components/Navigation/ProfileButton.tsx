@@ -29,7 +29,7 @@ export function ProfileButton() {
       return <Loader2Icon className="animate-spin" />;
     case null:
       return (
-        <Link href={'/login'} className="text-xl font-light">
+        <Link href={'/login'} className="text:md md:text-xl font-light">
           Login
         </Link>
       );

@@ -52,7 +52,7 @@ export default function GithubHeatmap({ username }: { username: string }) {
     <div>
       <Link
         href={`https://github.com/${userInfo.login}`}
-        className="flex items-center gap-2"
+        className="w-fit flex items-center gap-2"
       >
         <img
           src={userInfo.avatarUrl}
@@ -65,7 +65,7 @@ export default function GithubHeatmap({ username }: { username: string }) {
         </div>
       </Link>
       <HeatMap
-        className="w-full"
+        className="w-full h-24"
         value={value}
         startDate={new Date(value[0].date)}
         endDate={new Date(value[value.length - 1].date)}
@@ -82,6 +82,7 @@ export default function GithubHeatmap({ username }: { username: string }) {
             )}
           </Tooltip>
         )}
+        legendCellSize={0}
       />
     </div>
   );

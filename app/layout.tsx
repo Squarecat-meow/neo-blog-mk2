@@ -35,7 +35,7 @@ export default function RootLayout({
             className={`${plex.className} w-full h-screen flex flex-col items-center`}
           >
             <Navbar />
-            <main className="flex-1 w-3/4">{children}</main>
+            <main className="flex-1 w-full lg:w-3/4 p-6">{children}</main>
             <footer className="w-full h-24"></footer>
             <div id="portal" className="fixed top-0 left-0" />
           </Theme>
