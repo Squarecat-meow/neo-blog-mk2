@@ -125,10 +125,7 @@ export default function Page() {
             )}
           </Label>
         </section>
-        <Button
-          type="submit"
-          className="col-span-2 w-full transition-colors hover:bg-slate-700/30"
-        >
+        <Button type="submit" variant="primary" className="col-span-2 w-full">
           회원가입
         </Button>
       </form>

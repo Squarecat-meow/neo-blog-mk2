@@ -67,14 +67,11 @@ export default function Page() {
               </span>
             )}
           </Label>
-          <Button
-            type="submit"
-            className="w-full transition-colors hover:bg-slate-700/30"
-          >
+          <Button type="submit" variant="primary" className="w-full">
             로그인
           </Button>
         </form>
-        <Link href={'/signup'} className="mt-4 hover:border-b">
+        <Link href={'/signup'} className="mt-4">
           회원가입
         </Link>
       </div>

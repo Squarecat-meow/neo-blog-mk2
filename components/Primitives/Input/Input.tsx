@@ -1,7 +1,6 @@
 import { ComponentPropsWithoutRef } from 'react';
 
-interface IInput
-  extends Omit<ComponentPropsWithoutRef<'input'>, 'placeholder'> {
+interface IInput extends ComponentPropsWithoutRef<'input'> {
   placeholder: string;
   className?: string;
 }
@@ -9,7 +8,7 @@ interface IInput
 export default function Input({ placeholder, className, ...props }: IInput) {
   return (
     <input
-      className={`border-b p-2 ${className}`}
+      className={`border border-slate-300 rounded-lg p-2 ${className}`}
       placeholder={placeholder}
       {...props}
     />
