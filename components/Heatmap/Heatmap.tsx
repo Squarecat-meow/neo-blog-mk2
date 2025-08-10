@@ -65,13 +65,10 @@ export default function GithubHeatmap({ username }: { username: string }) {
         </div>
       </Link>
       <HeatMap
-        width={width > XLARGE_WIDTH ? 620 : 330}
+        className="w-full"
         value={value}
-        startDate={
-          width > XLARGE_WIDTH
-            ? new Date(value[0].date)
-            : new Date(value[(value.length - 1) / 2].date)
-        }
+        startDate={new Date(value[0].date)}
+        endDate={new Date(value[value.length - 1].date)}
         rectSize={9}
         rectProps={{
           rx: 2,
