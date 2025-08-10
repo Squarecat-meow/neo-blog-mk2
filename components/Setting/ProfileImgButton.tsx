@@ -28,7 +28,7 @@ export default function ProfileImgButton({
     <>
       <button
         onClick={() => fileRef.current?.click()}
-        className="w-full rounded-full relative cursor-pointer border aspect-square flex justify-center items-center transition-colors hover:bg-slate-500/30 z-[1]"
+        className="w-full rounded-full relative cursor-pointer aspect-square flex justify-center items-center transition-colors bg-sky-200 hover:bg-sky-300 z-[1]"
       >
         {user.profileImgUrl || profileImgObjectUrl ? (
           <img

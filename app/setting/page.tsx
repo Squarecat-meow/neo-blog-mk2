@@ -6,7 +6,7 @@ export default async function Page() {
   const userInfo = (await res.json()) as IUser;
 
   return (
-    <section>
+    <section className="flex justify-center">
       <SettingForm user={userInfo} />
     </section>
   );
