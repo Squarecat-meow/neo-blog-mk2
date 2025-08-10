@@ -22,6 +22,7 @@ model User {
   profileImgUrl String?
   introduction  String?
   refreshToken  String?
+  ownedCategories   Category[]
 }
 
 model Post {
@@ -40,12 +41,10 @@ model Category {
   name  String @unique
   posts Post[]
 
-  subCategories SubCategories[]
-}
+  categoryOwner       User    @relation(fields: [categoryOwnerId], references: [id], onDelete: Cascade)
+  categoryOwnerId     String
 
-model SubCategories {
-  id             Int      @id @default(autoincrement())
-  name           String   @unique
-  categoryId     Int
-  parentCategory Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  parentCategoryId  Int?
+  parentCategory  Category?     @relation("CategoryHierarchy", fields: [parentCategoryId], references: [id])
+  subCategories   Category[]    @relation("CategoryHierarchy")
 }
