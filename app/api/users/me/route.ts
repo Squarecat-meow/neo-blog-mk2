@@ -11,7 +11,7 @@ export async function GET() {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get('accessToken');
     if (!accessToken) {
-      return NextResponse.json({ authenticated: false }, { status: 200 });
+      return NextResponse.json({ authenticated: false }, { status: 403 });
     }
 
     const payload = (await verifyToken(

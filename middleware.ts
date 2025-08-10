@@ -26,6 +26,7 @@ export async function middleware(request: NextRequest) {
       const res = await fetch('/api/users/refresh', {
         method: 'POST',
         credentials: 'include',
+        body: JSON.stringify({}),
       });
 
       if (!res.ok) {
@@ -65,5 +66,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/mypage', '/writer'],
+  matcher: ['/setting', '/writer'],
 };
