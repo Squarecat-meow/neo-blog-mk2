@@ -23,7 +23,6 @@ interface IUserInfo {
 }
 
 export default function GithubHeatmap({ username }: { username: string }) {
-  const { width } = useWindowSize();
   const { loading, error, data } = useQuery(GET_CONTRIBUTION, {
     variables: { username },
   });
@@ -45,8 +44,6 @@ export default function GithubHeatmap({ username }: { username: string }) {
       }),
     ),
   ).flat();
-
-  if (!width) return;
 
   return (
     <div>
