@@ -1,70 +1,61 @@
-import { isTokenValid } from '@/utils/token';
+import { isTokenValid, publishAccessToken } from '@/utils/token';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
+import * as jose from 'jose';
+import { IAccessTokenPayload } from './types/TokenType';
+import { ACCESSTOKEN_EXPIRES } from './constant/tokenTime';
 
 export async function middleware(request: NextRequest) {
   const cookieStore = await cookies();
 
-  const accessToken = cookieStore.get('accessToken')?.value;
-  const refreshToken = cookieStore.get('refreshToken')?.value;
+  const accessToken = cookieStore.get('accessToken');
+  const refreshToken = cookieStore.get('refreshToken');
 
-  if (!accessToken || !refreshToken) {
+  if (!refreshToken) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  const [isAccessTokenValid, isRefreshTokenValid] = await Promise.all([
-    isTokenValid(accessToken),
-    isTokenValid(refreshToken),
-  ]);
-
-  if (!isRefreshTokenValid) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
-
-  if (!isAccessTokenValid) {
+  if (!accessToken) {
     try {
-      const res = await fetch('/api/users/refresh', {
-        method: 'POST',
-        credentials: 'include',
-        body: JSON.stringify({}),
+      const secretKey = jose.base64url.decode(process.env.JWT_SECRET!);
+      const { payload }: { payload: IAccessTokenPayload } =
+        await jose.jwtVerify(refreshToken.value, secretKey);
+
+      if (!payload) {
+        throw new Error('JWT가 유효하지 않습니다.');
+      }
+
+      const newAccessToken = await publishAccessToken(payload.userId);
+
+      const res = NextResponse.next();
+
+      res.cookies.set('accessToken', newAccessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: ACCESSTOKEN_EXPIRES,
+        path: '/',
       });
 
-      if (!res.ok) {
-        return NextResponse.redirect(new URL('/login', request.url));
-      } else {
-        const res = NextResponse.next();
-        const resCookies = res.cookies;
-
-        const accessToken = resCookies.get('accessToken');
-        const refreshToken = resCookies.get('refreshToken');
-
-        if (accessToken) {
-          res.cookies.set('accessToken', accessToken.value, {
-            httpOnly: accessToken.httpOnly,
-            sameSite: accessToken.sameSite,
-            path: accessToken.path,
-            secure: accessToken.secure,
-          });
-        }
-
-        if (refreshToken) {
-          res.cookies.set('refreshToken', refreshToken.value, {
-            httpOnly: refreshToken.httpOnly,
-            sameSite: refreshToken.sameSite,
-            path: refreshToken.path,
-            secure: refreshToken.secure,
-          });
-        }
-
-        return res;
-      }
+      return res;
     } catch (err) {
       console.error('액세스 토큰 재발급 중 오류 발생:', err);
       return NextResponse.redirect(new URL('/login', request.url));
     }
   }
+
+  const [isAccessTokenValid, isRefreshTokenValid] = await Promise.all([
+    isTokenValid(accessToken.value),
+    isTokenValid(refreshToken.value),
+  ]);
+
+  if (!isAccessTokenValid || !isRefreshTokenValid) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/setting', '/writer'],
+  matcher: ['/setting', '/writer', '/api/users/me'],
 };
