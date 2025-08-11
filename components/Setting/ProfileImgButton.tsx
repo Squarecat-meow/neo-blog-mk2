@@ -1,39 +1,51 @@
-import { IUser } from '@/types/UserType';
 import { Camera } from 'lucide-react';
 import { ChangeEvent, useRef, useState } from 'react';
+import ProfileImgConfirmModal from './Modal/ProfileImgConfirmModal';
+import ProfileImgCropperModal from './Modal/ProfileImgCropperModal';
+
+export type ProfileImgModalStateType = 'confirm' | 'cropper' | 'none';
 
 export default function ProfileImgButton({
-  user,
-  callback,
+  imageState,
+  setImageState,
 }: {
-  user: IUser;
-  callback: (url: string) => void;
+  imageState: string | null;
+  setImageState: (url: string) => void;
 }) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [profileImgObjectUrl, setProfileImgObjectUrl] = useState<string | null>(
     null,
   );
+  const [isModalOpened, setIsModalOpened] =
+    useState<ProfileImgModalStateType>('none');
+
+  console.log(isModalOpened);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
+
+    setIsModalOpened('confirm');
     const objectUrl = URL.createObjectURL(e.target.files[0]);
     setProfileImgObjectUrl((prev) => {
       if (prev) URL.revokeObjectURL(prev);
       return objectUrl;
     });
-    callback(objectUrl);
+    // setImageState(objectUrl);
   };
 
   return (
     <>
       <button
-        onClick={() => fileRef.current?.click()}
-        className="w-full rounded-full relative cursor-pointer aspect-square flex justify-center items-center transition-colors bg-sky-200 hover:bg-sky-300 z-[1]"
+        onClick={(e) => {
+          e.preventDefault();
+          fileRef.current?.click();
+        }}
+        className="w-full rounded-full cursor-pointer aspect-square flex justify-center items-center transition-colors bg-sky-200 hover:bg-sky-300 z-[1]"
       >
-        {user.profileImgUrl || profileImgObjectUrl ? (
+        {imageState || profileImgObjectUrl ? (
           <img
-            className="object-cover size-full rounded-full mix-blend-darken"
-            src={profileImgObjectUrl || user.profileImgUrl || ''}
+            className="object-cover size-full rounded-full"
+            src={profileImgObjectUrl || imageState || ''}
             alt="유저 프로필 사진"
           />
         ) : (
@@ -46,6 +58,15 @@ export default function ProfileImgButton({
         onChange={handleFileChange}
         ref={fileRef}
         hidden
+      />
+      <ProfileImgConfirmModal
+        isVisible={isModalOpened}
+        setIsVisible={setIsModalOpened}
+      />
+      <ProfileImgCropperModal
+        image={profileImgObjectUrl!}
+        isVisible={isModalOpened}
+        setIsVisible={setIsModalOpened}
       />
     </>
   );
