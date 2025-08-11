@@ -10,9 +10,9 @@ export async function GET() {
   try {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get('accessToken');
-    if (!accessToken) {
-      return NextResponse.json({ authenticated: false }, { status: 403 });
-    }
+
+    if (!accessToken)
+      return NextResponse.json({ authenticated: false }, { status: 401 });
 
     const payload = (await verifyToken(
       accessToken.value,
