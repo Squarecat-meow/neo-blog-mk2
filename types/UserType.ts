@@ -12,7 +12,7 @@ export interface ISignup {
 }
 
 export interface IUser {
-  id: number;
+  id: string;
   userId: string;
   nickname: string;
   profileImgUrl: string | null;
