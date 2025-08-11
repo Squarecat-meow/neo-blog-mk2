@@ -39,9 +39,13 @@ export async function verifyAndRefreshAccessToken(token: string) {
 }
 
 export async function verifyToken(token: string) {
-  const { payload } = await jose.jwtVerify(token, secret);
+  try {
+    const { payload } = await jose.jwtVerify(token, secret);
 
-  return payload;
+    return payload;
+  } catch (err) {
+    return err;
+  }
 }
 
 export async function isTokenValid(token: string) {

@@ -1,8 +1,6 @@
-import { isTokenValid, publishAccessToken } from '@/utils/token';
+import { isTokenValid, verifyAndRefreshAccessToken } from '@/utils/token';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import * as jose from 'jose';
-import { IAccessTokenPayload } from './types/TokenType';
 import { ACCESSTOKEN_EXPIRES } from './constant/tokenTime';
 
 export async function middleware(request: NextRequest) {
@@ -17,15 +15,11 @@ export async function middleware(request: NextRequest) {
 
   if (!accessToken) {
     try {
-      const secretKey = jose.base64url.decode(process.env.JWT_SECRET!);
-      const { payload }: { payload: IAccessTokenPayload } =
-        await jose.jwtVerify(refreshToken.value, secretKey);
+      const newAccessToken = await verifyAndRefreshAccessToken(
+        refreshToken.value,
+      );
 
-      if (!payload) {
-        throw new Error('JWT가 유효하지 않습니다.');
-      }
-
-      const newAccessToken = await publishAccessToken(payload.userId);
+      if (!newAccessToken) return NextResponse.next();
 
       const res = NextResponse.next();
 
@@ -57,5 +51,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/setting', '/writer', '/api/users/me'],
+  matcher: ['/setting', '/writer'],
 };
