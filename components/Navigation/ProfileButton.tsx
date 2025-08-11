@@ -1,29 +1,11 @@
 'use client';
 
-import { useUserStore } from '@/store/UserStore';
 import { IUser } from '@/types/UserType';
 import { DropdownMenu } from '@radix-ui/themes';
 import { Loader2Icon } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
-export function ProfileButton() {
-  const [user, setUser] = useState<IUser | null>();
-  const { currentUser } = useUserStore();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const res = await fetch('/api/users/me');
-      const data = await res.json();
-
-      if (data.authenticated) setUser(data.currentUser);
-      else setUser(null);
-    };
-
-    if (currentUser) setUser(currentUser);
-    else fetchUser();
-  }, [currentUser]);
-
+export function ProfileButton({ user }: { user: IUser | null }) {
   switch (user) {
     case undefined:
       return <Loader2Icon className="animate-spin" />;

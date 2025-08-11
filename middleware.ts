@@ -51,5 +51,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/setting', '/writer'],
+  matcher: ['/setting', '/writer', '/api/users/me'],
 };
