@@ -1,6 +1,5 @@
 import prismaClient from '@/lib/prisma';
-import { IAccessTokenPayload } from '@/types/TokenType';
-import { verifyToken } from '@/utils/token';
+import { isTokenValid, verifyToken } from '@/utils/token';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
@@ -14,9 +13,12 @@ export async function GET() {
     if (!accessToken)
       return NextResponse.json({ authenticated: false }, { status: 401 });
 
-    const payload = (await verifyToken(
-      accessToken.value,
-    )) as IAccessTokenPayload;
+    const checkTokenValid = await isTokenValid(accessToken.value);
+
+    if (!checkTokenValid)
+      return NextResponse.json({ authenticated: false }, { status: 403 });
+
+    const payload = await verifyToken(accessToken.value);
 
     const foundedUser = await prisma.user.findUnique({
       where: {
