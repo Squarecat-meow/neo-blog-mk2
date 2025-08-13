@@ -17,7 +17,7 @@ interface ISettingForm {
 
 export default function MyPageForm({ user }: { user: IUser }) {
   const [isLoading, setIsLoading] = useState(false);
-  const { currentImg } = useProfileImgCropperStore();
+  const { currentImg, changeCurrentImg } = useProfileImgCropperStore();
 
   const { register, handleSubmit, setValue } = useForm<ISettingForm>();
 
@@ -51,6 +51,10 @@ export default function MyPageForm({ user }: { user: IUser }) {
   };
 
   useEffect(() => {
+    changeCurrentImg(user.profileImgUrl);
+  }, [user.profileImgUrl, changeCurrentImg]);
+
+  useEffect(() => {
     setValue('profileImgUrl', currentImg);
   }, [currentImg, setValue]);
 
@@ -69,14 +73,18 @@ export default function MyPageForm({ user }: { user: IUser }) {
             <Input
               placeholder={user.nickname}
               id="nickname"
-              {...register('nickname')}
+              {...register('nickname', {
+                value: user.nickname,
+              })}
             />
           </Label>
           <Label label="자기소개" htmlFor="introduction">
             <Input
               placeholder={user.introduction ?? '자기소개를 입력해주세요.'}
               id="introduction"
-              {...register('introduction')}
+              {...register('introduction', {
+                value: user.introduction,
+              })}
             />
           </Label>
           <Button
