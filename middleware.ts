@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
   const refreshToken = cookieStore.get('refreshToken');
 
   if (!refreshToken) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.json({ authenticated: false });
   }
 
   if (!accessToken) {
@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
         refreshToken.value,
       );
 
-      if (!newAccessToken) return NextResponse.next();
+      if (!newAccessToken) return NextResponse.json({ authenticatd: false });
 
       const res = NextResponse.next();
 

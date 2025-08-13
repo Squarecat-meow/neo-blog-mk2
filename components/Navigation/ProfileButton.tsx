@@ -24,7 +24,7 @@ function UserChip({ user }: { user: IUser }) {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger className="outline-none font-light">
-        <button className="cursor-pointer">{user.nickname}</button>
+        <button className="text-xl cursor-pointer">{user.nickname}</button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content color="sky">
         <DropdownMenu.Item className="font-light">
