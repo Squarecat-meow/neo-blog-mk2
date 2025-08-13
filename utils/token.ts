@@ -39,25 +39,18 @@ export async function verifyAndRefreshAccessToken(token: string) {
 }
 
 export async function verifyToken(token: string) {
-  try {
-    const { payload } = await jose.jwtVerify(token, secret);
+  const { payload } = await jose.jwtVerify(token, secret);
 
-    return payload;
-  } catch (err) {
-    return err;
-  }
+  return payload as IAccessTokenPayload;
 }
 
 export async function isTokenValid(token: string) {
   const { payload } = await jose.jwtVerify(token, secret);
   const currentTime = Math.floor(Date.now() / 1000);
 
-  try {
-    if (payload.exp && payload.exp > currentTime) {
-      return true;
-    }
-  } catch (err) {
-    console.error(err);
+  if (payload.exp && payload.exp > currentTime) {
+    return true;
+  } else {
     return false;
   }
 }
