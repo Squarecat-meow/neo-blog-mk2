@@ -5,7 +5,6 @@ import Input from '@/components/Primitives/Input/Input';
 import Label from '@/components/Primitives/Label/Label';
 import { ILogin } from '@/types/UserType';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 export default function Page() {
@@ -15,8 +14,6 @@ export default function Page() {
     setError,
     formState: { errors },
   } = useForm<ILogin>({ mode: 'onChange' });
-  const router = useRouter();
-
   const onSubmit: SubmitHandler<ILogin> = async (e) => {
     const res = await fetch('/api/users/login', {
       method: 'POST',
@@ -31,7 +28,7 @@ export default function Page() {
       case 404:
         return setError('root', { message: data.error });
       case 200:
-        return router.push('/');
+        return (window.location.href = '/');
     }
   };
   return (
