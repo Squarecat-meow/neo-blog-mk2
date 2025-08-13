@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 interface IProfileImgCropper {
   currentImg: string | null;
-  changeCurrentImg: (img: string) => void;
+  changeCurrentImg: (img: string | null) => void;
 }
 
 export const useProfileImgCropperStore = create<IProfileImgCropper>()(
