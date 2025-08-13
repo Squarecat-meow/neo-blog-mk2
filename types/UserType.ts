@@ -3,6 +3,11 @@ export interface ILogin {
   password: string;
 }
 
+export interface ILoginResponse {
+  authenticated: boolean;
+  currentUser: IUser;
+}
+
 export interface ISignup {
   inviteCode: string;
   id: string;
