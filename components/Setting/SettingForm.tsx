@@ -37,13 +37,10 @@ export default function MyPageForm({ user }: { user: IUser }) {
         formData.set('profileImgUrl', blob ?? '');
       }
 
-      const res = await fetch('/api/users/setting', {
+      fetch('/api/users/setting', {
         method: 'POST',
         body: formData,
       });
-      const result = await res.json();
-
-      console.log(result);
     } catch (err) {
       if (err instanceof Error) console.error(err.message);
     }
