@@ -26,7 +26,7 @@ export async function middleware(request: NextRequest) {
       res.cookies.set('accessToken', newAccessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
+        sameSite: 'lax',
         maxAge: ACCESSTOKEN_EXPIRES,
         path: '/',
       });
@@ -51,5 +51,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/setting', '/writer', '/api/users/me', '/api/users/setting'],
+  matcher: ['/setting', '/writer', '/api/users/me'],
 };

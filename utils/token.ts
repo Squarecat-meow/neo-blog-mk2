@@ -28,13 +28,13 @@ export async function publishRefreshToken(userId: string) {
 
 export async function verifyAndRefreshAccessToken(token: string) {
   try {
-    const decoded = (await verifyToken(token)) as IAccessTokenPayload;
+    const decoded = await verifyToken(token);
     const newAccessToken = await publishAccessToken(decoded.userId);
 
     return newAccessToken;
   } catch (err) {
     if (err instanceof Error)
-      throw new Error('Refresh Token이 유효하지 않습니다!');
+      console.error('Refresh Token이 유효하지 않습니다!');
   }
 }
 

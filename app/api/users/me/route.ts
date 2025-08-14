@@ -8,17 +8,18 @@ const prisma = prismaClient;
 export async function GET() {
   try {
     const cookieStore = await cookies();
-    const accessToken = cookieStore.get('accessToken');
+    const accessToken = cookieStore.get('accessToken')?.value;
 
-    if (!accessToken)
-      return NextResponse.json({ authenticated: false }, { status: 401 });
+    if (!accessToken) {
+      return NextResponse.json({ authenticated: false });
+    }
 
-    const checkTokenValid = await isTokenValid(accessToken.value);
+    const checkTokenValid = await isTokenValid(accessToken);
 
     if (!checkTokenValid)
       return NextResponse.json({ authenticated: false }, { status: 403 });
 
-    const payload = await verifyToken(accessToken.value);
+    const payload = await verifyToken(accessToken);
 
     const foundedUser = await prisma.user.findUnique({
       where: {
@@ -33,7 +34,10 @@ export async function GET() {
       },
     });
 
-    return NextResponse.json({ authenticated: true, currentUser: foundedUser });
+    return NextResponse.json({
+      authenticated: true,
+      currentUser: foundedUser,
+    });
   } catch (err) {
     if (err instanceof Error)
       return NextResponse.json({ error: err.message }, { status: 400 });
