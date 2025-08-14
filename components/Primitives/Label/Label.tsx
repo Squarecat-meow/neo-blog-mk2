@@ -3,7 +3,7 @@ import { Label as RadixLabel } from 'radix-ui';
 interface ILabel {
   label: string;
   children: React.ReactNode;
-  htmlFor: string;
+  htmlFor?: string;
   className?: string;
 }
 
