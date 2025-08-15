@@ -5,7 +5,7 @@ import { cookies } from 'next/headers';
 export default async function Page() {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users/me`, {
+  const res = await fetch(`${process.env.APP_URL}/api/users/me`, {
     headers: {
       Cookie: cookieHeader,
     },
