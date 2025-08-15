@@ -18,6 +18,8 @@ export default function Page() {
       return e;
     }
   };
+
+  // TODO: useForm으로 카테고리와 제목과 본문 파싱해서 POST때리기
   return (
     <>
       <section className="w-full flex justify-center">
