@@ -5,11 +5,26 @@ import Input from '@/components/Primitives/Input/Input';
 import { Editor } from '@/components/Writer/DynamicEditor';
 import NewCategoryModal from '@/components/Writer/NewCategoryModal';
 import { Select } from '@radix-ui/themes';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import { Category } from '../generated/prisma';
+
+const fetchCategories = async () => {
+  const res = await fetch('/api/writer/category');
+  const data = (await res.json()) as Category[];
+
+  return data;
+};
 
 export default function Page() {
   const [isNewCategoryModalVisible, setIsNewCategoryModalVisible] =
     useState(false);
+  const { data, isLoading } = useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+  });
+
+  // TODO: 반환된 카테고리 정보를 렌더링하기
 
   const onCategoryChange = (e: string) => {
     if (e === '새 카테고리') {
