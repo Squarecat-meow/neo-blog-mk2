@@ -2,38 +2,32 @@
 
 import { ILoginResponse, IUser } from '@/types/UserType';
 import { DropdownMenu } from '@radix-ui/themes';
+import { useQuery } from '@tanstack/react-query';
 import { Loader2Icon } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
 export function ProfileButton() {
-  const [user, setUser] = useState<IUser | null>();
-  useEffect(() => {
-    const fn = async () => {
-      const res = await fetch('/api/users/me', { credentials: 'include' });
-      const data = (await res.json()) as ILoginResponse;
+  const fetchUserData = async () => {
+    const res = await fetch('/api/users/me', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+    const data = (await res.json()) as ILoginResponse;
 
-      if (data.authenticated) {
-        setUser(data.currentUser);
-      } else {
-        setUser(null);
-      }
-    };
+    return data;
+  };
+  const { data, isPending } = useQuery({
+    queryKey: ['users'],
+    queryFn: fetchUserData,
+  });
 
-    fn();
-  }, []);
-  switch (user) {
-    case undefined:
-      return <Loader2Icon className="animate-spin" />;
-    case null:
-      return (
-        <Link href={'/login'} className="text-md md:text-xl font-light">
-          Login
-        </Link>
-      );
-    default:
-      return <UserChip user={user} />;
+  if (isPending) {
+    return <Loader2Icon className="animate-spin" />;
   }
+
+  return <UserChip user={data!.currentUser} />;
 }
 
 function UserChip({ user }: { user: IUser }) {
