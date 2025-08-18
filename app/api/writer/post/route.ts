@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
       authorId: userId,
       title: data.title,
       body: data.body,
-      categoryName: category.name,
+      categoryId: category.id,
     },
   });
 

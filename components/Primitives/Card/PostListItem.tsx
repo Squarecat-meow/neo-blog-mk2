@@ -2,7 +2,13 @@ import { IPost } from '@/types/PostTypes';
 import dateParser from '@/utils/dateParser';
 import Link from 'next/link';
 
-export default function PostListItem({ post }: { post: IPost }) {
+interface IPostWithCategory extends IPost {
+  category: {
+    name: string;
+  };
+}
+
+export default function PostListItem({ post }: { post: IPostWithCategory }) {
   return (
     <Link
       href={`/post/${post.id}`}
@@ -24,7 +30,7 @@ export default function PostListItem({ post }: { post: IPost }) {
               : dateParser(post.createdAt)}
           </span>
           <span className="text-sm font-light">|</span>
-          <span className="text-sm font-light">{post.categoryName}</span>
+          <span className="text-sm font-light">{post.category.name}</span>
         </div>
         <p className="text-lg">{post.body}</p>
       </div>

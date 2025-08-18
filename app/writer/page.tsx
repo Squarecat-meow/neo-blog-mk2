@@ -34,7 +34,7 @@ export default function Page() {
   const mutation = useMutation({
     mutationFn: mutatePost,
     onSuccess: async (res) => {
-      router.push(`/post/${res.result.id}`);
+      router.push(`/post/${res.result.categoryId}/${res.result.id}`);
     },
   });
 
