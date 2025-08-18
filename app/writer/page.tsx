@@ -3,59 +3,76 @@
 import Button from '@/components/Primitives/Button/Button';
 import Input from '@/components/Primitives/Input/Input';
 import { Editor } from '@/components/Writer/DynamicEditor';
-import NewCategoryModal from '@/components/Writer/NewCategoryModal';
-import { Select } from '@radix-ui/themes';
+import CategorySelector from '@/components/Writer/CategorySelector';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import ConfirmPostModal from '@/components/Writer/ConfirmPostModal';
 import { useState } from 'react';
 
-export default function Page() {
-  const [isNewCategoryModalVisible, setIsNewCategoryModalVisible] =
-    useState(false);
+interface IPost {
+  categoryId: number;
+  subject: string;
+  body: string;
+}
 
-  const onCategoryChange = (e: string) => {
-    if (e === '새 카테고리') {
-      setIsNewCategoryModalVisible(true);
-    } else {
-      return e;
-    }
+const mutatePost = async (data: IPost) => {
+  const res = await fetch('/api/writer/post', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) throw new Error('포스트를 만드는데 실패했습니다!');
+
+  return await res.json();
+};
+
+export default function Page() {
+  // TODO: useForm으로 카테고리와 제목과 본문 파싱해서 POST때리기
+  const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
+  const { register, handleSubmit, setValue } = useForm<IPost>();
+  const router = useRouter();
+  const mutation = useMutation({
+    mutationFn: mutatePost,
+    onSuccess: async (res) => {
+      const data = await res.json();
+      router.push(`/post/${data.id}`);
+    },
+  });
+
+  const onSubmit: SubmitHandler<IPost> = (e) => {
+    mutation.mutate(e);
   };
 
-  // TODO: useForm으로 카테고리와 제목과 본문 파싱해서 POST때리기
   return (
     <>
       <section className="w-full flex justify-center">
         <article className="w-full md:w-3/4 space-y-2">
-          <form className="w-full flex gap-2">
-            <Select.Root size={'3'} onValueChange={onCategoryChange}>
-              <Select.Trigger placeholder="카테고리" />
-              <Select.Content>
-                <Select.Group>
-                  <Select.Label>요즈미나</Select.Label>
-                  <Select.Item value="일상">일상</Select.Item>
-                  <Select.Item value="개발">개발</Select.Item>
-                  <Select.Item value="바이크">바이크</Select.Item>
-                </Select.Group>
-                <Select.Separator />
-                <Select.Group>
-                  <Select.Item
-                    value="새 카테고리"
-                    onSelect={() => setIsNewCategoryModalVisible(true)}
-                  >
-                    새 카테고리
-                  </Select.Item>
-                </Select.Group>
-              </Select.Content>
-            </Select.Root>
-            <Input placeholder="제목" className="w-full flex-1" />
-            <Button variant="primary" className="px-4">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="w-full flex flex-col sm:flex-row sm:items-center gap-2"
+          >
+            <CategorySelector setValue={(id) => setValue('categoryId', id)} />
+            <Input
+              placeholder="제목"
+              className="w-full flex-1"
+              {...register('subject', { required: true })}
+            />
+            <Button
+              variant="primary"
+              className="px-4"
+              onClick={() => setIsConfirmModalVisible(true)}
+            >
               글쓰기
             </Button>
           </form>
-          <Editor />
+          <Editor onChange={(body) => setValue('body', body)} />
         </article>
       </section>
-      <NewCategoryModal
-        isVisible={isNewCategoryModalVisible}
-        setIsVisible={setIsNewCategoryModalVisible}
+      <ConfirmPostModal
+        isVisible={isConfirmModalVisible}
+        setIsVisible={setIsConfirmModalVisible}
+        confirmCallback={handleSubmit(onSubmit)}
       />
     </>
   );
