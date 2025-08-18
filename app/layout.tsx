@@ -4,7 +4,6 @@ import { Theme } from '@radix-ui/themes';
 import { IBM_Plex_Sans_KR, Noto_Serif_KR } from 'next/font/google';
 import Navbar from '@/components/Navigation/Navbar';
 import ClientProvider from '@/components/Apollo/ClientProvider';
-import { QueryClient } from '@tanstack/react-query';
 import ReactQueryClientProvider from '@/lib/queryClient';
 
 export const metadata: Metadata = {
