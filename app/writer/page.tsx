@@ -28,7 +28,6 @@ const mutatePost = async (data: IPost) => {
 };
 
 export default function Page() {
-  // TODO: useForm으로 카테고리와 제목과 본문 파싱해서 POST때리기
   const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
   const { register, handleSubmit, setValue } = useForm<IPost>();
   const router = useRouter();

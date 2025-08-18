@@ -18,7 +18,6 @@ export async function POST(req: NextRequest) {
   try {
     const jwtPayload = await verifyToken(accessToken.value);
 
-    // TODO: req로 받은 FormData 파싱하기 (Blob도 추가)
     const data = await req.formData();
     const profileImg = data.get('profileImgUrl');
     const parsedData = Object.fromEntries(data.entries()) as Partial<IUser>;
@@ -44,7 +43,6 @@ export async function POST(req: NextRequest) {
       parsedData.profileImgUrl = `https://${process.env.BACKBLAZE_BUCKET}.s3.${process.env.BACKBLAZE_REGION}.backblazeb2.com/profile-photo/${fileName}`;
     }
 
-    // TODO: DB에 새로 받은 데이터 업데이트 하기
     const updatedUser = await prismaClient.user.update({
       where: {
         userId: jwtPayload.userId,
