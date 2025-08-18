@@ -4,6 +4,8 @@ import { Theme } from '@radix-ui/themes';
 import { IBM_Plex_Sans_KR, Noto_Serif_KR } from 'next/font/google';
 import Navbar from '@/components/Navigation/Navbar';
 import ClientProvider from '@/components/Apollo/ClientProvider';
+import { QueryClient } from '@tanstack/react-query';
+import ReactQueryClientProvider from '@/lib/queryClient';
 
 export const metadata: Metadata = {
   title: '요즈미나의 므아지경',
@@ -31,14 +33,16 @@ export default function RootLayout({
     <html lang="ko" className={`${plex.variable} ${notoSerif.variable}`}>
       <body>
         <ClientProvider>
-          <Theme
-            className={`${plex.className} w-full h-screen flex flex-col items-center`}
-          >
-            <Navbar />
-            <main className="flex-1 w-full lg:w-3/4 p-6">{children}</main>
-            <footer className="w-full h-24"></footer>
-            <div id="portal" className="fixed top-0 left-0" />
-          </Theme>
+          <ReactQueryClientProvider>
+            <Theme
+              className={`${plex.className} w-full h-screen flex flex-col items-center`}
+            >
+              <Navbar />
+              <main className="flex-1 w-full lg:w-3/4 p-6">{children}</main>
+              <footer className="w-full h-24"></footer>
+              <div id="portal" className="fixed top-0 left-0" />
+            </Theme>
+          </ReactQueryClientProvider>
         </ClientProvider>
       </body>
     </html>
