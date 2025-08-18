@@ -5,8 +5,6 @@ import { GET_CONTRIBUTION } from '../Apollo/queries';
 import HeatMap from '@uiw/react-heat-map';
 import { Tooltip } from '@radix-ui/themes';
 import Link from 'next/link';
-import { useWindowSize } from '@/hooks/useWindowSize';
-import { XLARGE_WIDTH } from '@/constant/windowSize';
 
 interface IContributionCalendar {
   weeks: {
@@ -25,6 +23,7 @@ interface IUserInfo {
 export default function GithubHeatmap({ username }: { username: string }) {
   const { loading, error, data } = useQuery(GET_CONTRIBUTION, {
     variables: { username },
+    pollInterval: 60 * 60 * 1000,
   });
 
   if (loading) return <div>loading...</div>;
