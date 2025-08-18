@@ -12,7 +12,7 @@ import { useState } from 'react';
 
 interface IPost {
   categoryId: number;
-  subject: string;
+  title: string;
   body: string;
 }
 
@@ -35,8 +35,7 @@ export default function Page() {
   const mutation = useMutation({
     mutationFn: mutatePost,
     onSuccess: async (res) => {
-      const data = await res.json();
-      router.push(`/post/${data.id}`);
+      router.push(`/post/${res.result.id}`);
     },
   });
 
@@ -56,12 +55,15 @@ export default function Page() {
             <Input
               placeholder="제목"
               className="w-full flex-1"
-              {...register('subject', { required: true })}
+              {...register('title', { required: true })}
             />
             <Button
               variant="primary"
               className="px-4"
-              onClick={() => setIsConfirmModalVisible(true)}
+              onClick={(e) => {
+                e.preventDefault();
+                setIsConfirmModalVisible(true);
+              }}
             >
               글쓰기
             </Button>
