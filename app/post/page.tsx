@@ -1,8 +1,8 @@
 import PostListItem from '@/components/Primitives/Card/PostListItem';
-import { mockPosts } from '@/mock/mockdata';
+import prismaClient from '@/lib/prisma';
 
-export default function Page() {
-  const posts = mockPosts;
+export default async function Page() {
+  const posts = await prismaClient.post.findMany();
   return (
     <section className="flex flex-col gap-4">
       {posts.map((el) => (
