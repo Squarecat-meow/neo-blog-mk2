@@ -10,7 +10,7 @@ export interface ICategory {
 
 export interface IPost {
   id: number;
-  categoryName: string;
+  categoryId: number;
   title: string;
   thumbnailImgUrl: string | null;
   body: string;

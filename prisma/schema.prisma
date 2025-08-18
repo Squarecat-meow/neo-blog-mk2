@@ -30,8 +30,8 @@ model Post {
   id              Int       @id @default(autoincrement())
   author          User      @relation(fields: [authorId], references: [userId], onDelete: Cascade)
   authorId        String
-  category        Category  @relation(fields: [categoryName], references: [name])
-  categoryName    String
+  category        Category  @relation(fields: [categoryId], references: [id])
+  categoryId      Int
   title           String
   thumbnailImgUrl String?
   body            String
