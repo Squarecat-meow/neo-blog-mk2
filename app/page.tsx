@@ -5,8 +5,16 @@ import prismaClient from '@/lib/prisma';
 export default async function Home() {
   const prisma = prismaClient;
 
-  const posts = await prisma.post.findMany();
-  const postList = posts.slice(0, 6);
+  const posts = await prisma.post.findMany({
+    include: {
+      category: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+  const postList = posts.reverse().slice(0, 6);
 
   return (
     <section className="w-full space-y-6 mt-2">
