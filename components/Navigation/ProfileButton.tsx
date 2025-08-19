@@ -2,41 +2,54 @@
 
 import { ILoginResponse, IUser } from '@/types/UserType';
 import { DropdownMenu } from '@radix-ui/themes';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { Loader2Icon } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export function ProfileButton() {
-  const [user, setUser] = useState<IUser | null>();
-  useEffect(() => {
-    const fn = async () => {
+  const { data, isPending } = useQuery({
+    queryKey: ['user'],
+    queryFn: async () => {
       const res = await fetch('/api/users/me', { credentials: 'include' });
       const data = (await res.json()) as ILoginResponse;
 
-      if (data.authenticated) {
-        setUser(data.currentUser);
-      } else {
-        setUser(null);
-      }
-    };
+      return data;
+    },
+  });
 
-    fn();
-  }, []);
-  switch (user) {
-    case undefined:
-      return <Loader2Icon className="animate-spin" />;
-    case null:
+  if (isPending) {
+    return <Loader2Icon className="animate-spin" />;
+  } else {
+    if (data?.authenticated) {
+      return <UserChip user={data.currentUser} />;
+    } else {
       return (
         <Link href={'/login'} className="text-md md:text-xl font-light">
           Login
         </Link>
       );
-    default:
-      return <UserChip user={user} />;
+    }
   }
 }
 
 function UserChip({ user }: { user: IUser }) {
+  const handleLogout = async () => {
+    try {
+      const res = await fetch('/api/users/logout', {
+        method: 'POST',
+        body: '',
+        credentials: 'include',
+      });
+
+      if (!res.ok) throw new Error('(왜인지?) 로그아웃이 실패했어요!');
+
+      return (window.location.href = '/');
+    } catch (err) {
+      if (err instanceof Error) console.error(err.message);
+    }
+  };
+
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger className="outline-none font-light text-md md:text-xl">
@@ -51,7 +64,7 @@ function UserChip({ user }: { user: IUser }) {
         </DropdownMenu.Item>
         <DropdownMenu.Separator />
         <DropdownMenu.Item color="red" className="font-light">
-          <button>Logout</button>
+          <button onClick={handleLogout}>Logout</button>
         </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
