@@ -13,7 +13,7 @@ export default async function Page() {
   });
   return (
     <section className="flex flex-col gap-4">
-      {posts.map((el) => (
+      {posts.reverse().map((el) => (
         <PostListItem post={el} key={el.id} />
       ))}
     </section>
