@@ -34,7 +34,7 @@ export default function Page() {
   const mutation = useMutation({
     mutationFn: mutatePost,
     onSuccess: async (res) => {
-      router.push(`/post/${res.result.categoryId}/${res.result.id}`);
+      router.push(`/post/${res.result.id}`);
     },
   });
 
@@ -57,6 +57,7 @@ export default function Page() {
               {...register('title', { required: true })}
             />
             <Button
+              tabIndex={1}
               variant="primary"
               className="px-4"
               onClick={(e) => {
