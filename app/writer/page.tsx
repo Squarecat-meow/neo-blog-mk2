@@ -14,6 +14,7 @@ interface IPost {
   categoryId: number;
   title: string;
   body: string;
+  thumbnailImgUrl: string;
 }
 
 const mutatePost = async (data: IPost) => {
@@ -39,7 +40,14 @@ export default function Page() {
   });
 
   const onSubmit: SubmitHandler<IPost> = (e) => {
-    mutation.mutate(e);
+    const thumbnail = e.body.match(/\(([^)]+)\)/)?.[1];
+
+    mutation.mutate({
+      categoryId: e.categoryId,
+      title: e.title,
+      body: e.body,
+      thumbnailImgUrl: thumbnail ?? '',
+    });
   };
 
   return (

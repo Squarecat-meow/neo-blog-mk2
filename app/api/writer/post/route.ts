@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
       title: data.title,
       body: data.body,
       categoryId: category.id,
+      thumbnailImgUrl: data.thumbnailImgUrl,
     },
   });
 
