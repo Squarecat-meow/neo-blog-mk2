@@ -22,7 +22,7 @@ export default async function Sidebar() {
             <div className="flex gap-2 items-center" key={user.nickname}>
               <Image
                 src={user.userId === 'yozumina' ? MinaImage : YunoImage}
-                alt="미나 카테고리 이미지"
+                alt="카테고리 이미지"
                 className="w-10"
               />
               <span className="font-light hidden sm:block">
