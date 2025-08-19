@@ -1,5 +1,9 @@
 import prismaClient from '@/lib/prisma';
 import dateParser from '@/utils/dateParser';
+import { MDXRemote } from 'next-mdx-remote-client/rsc';
+import rehypePrettyCode from 'rehype-pretty-code';
+import rehypeCodeTitles from 'rehype-code-titles';
+import remarkGfm from 'remark-gfm';
 
 export default async function Page({
   params,
@@ -47,7 +51,20 @@ export default async function Page({
         )}
         <span>{post.author.nickname}</span>
       </div>
-      <p>{post.body}</p>
+      <div className="prose">
+        <MDXRemote
+          source={post.body}
+          options={{
+            mdxOptions: {
+              remarkPlugins: [remarkGfm],
+              rehypePlugins: [
+                [rehypePrettyCode, { theme: 'catppuccin-frappe' }],
+                rehypeCodeTitles,
+              ],
+            },
+          }}
+        />
+      </div>
     </article>
   );
 }
