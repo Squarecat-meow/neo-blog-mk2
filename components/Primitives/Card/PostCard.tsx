@@ -1,4 +1,4 @@
-import { IPost, IPostWithCategory } from '@/types/PostTypes';
+import { IPostWithCategory } from '@/types/PostTypes';
 import dateParser from '@/utils/dateParser';
 import { Camera } from 'lucide-react';
 import Link from 'next/link';
@@ -7,7 +7,7 @@ export default function PostCard({ post }: { post: IPostWithCategory }) {
   return (
     <Link
       href={`/post/${post.id}`}
-      className="flex flex-col rounded-lg border border-slate-200"
+      className="flex flex-col rounded-lg border border-slate-200 transition-shadow hover:shadow-lg"
     >
       {post.thumbnailImgUrl ? (
         <img
