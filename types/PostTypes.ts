@@ -14,6 +14,7 @@ export interface IPost {
   title: string;
   thumbnailImgUrl: string | null;
   body: string;
+  summary: string;
   createdAt: Date;
   updatedAt: Date | null;
 }

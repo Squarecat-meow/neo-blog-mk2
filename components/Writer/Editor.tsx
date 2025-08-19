@@ -12,7 +12,7 @@ import { BlockNoteSchema, defaultBlockSpecs } from '@blocknote/core';
 export default function Editor({
   onChange,
 }: {
-  onChange: (body: string) => void;
+  onChange: (markdown: string, plainText: string) => void;
 }) {
   const [markdown, setMarkdown] = useState('');
 
@@ -55,9 +55,41 @@ export default function Editor({
     setMarkdown(markdown);
   };
 
+  const convertPlainText = (markdown: string) => {
+    return (
+      markdown
+        // 이미지: ![alt](url) - 완전히 제거 (캡션도 제거)
+        .replace(/!\[([^\]]*)\]\([^)]*\)/g, '')
+        // 링크: [text](url) - 텍스트만 남기기
+        .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+        // 볼드: **text** or __text__
+        .replace(/(\*\*|__)(.*?)\1/g, '$2')
+        // 이탤릭: *text* or _text_
+        .replace(/(\*|_)(.*?)\1/g, '$2')
+        // 코드: `code`
+        .replace(/`([^`]*)`/g, '$1')
+        // 헤더: # ## ### 등
+        .replace(/^#{1,6}\s+/gm, '')
+        // 인용: > text
+        .replace(/^>\s+/gm, '')
+        // 리스트: - * +
+        .replace(/^[\s]*[-\*\+]\s+/gm, '')
+        // 숫자 리스트: 1. 2. 등
+        .replace(/^[\s]*\d+\.\s+/gm, '')
+        // 구분선: --- *** ___
+        .replace(/^[\s]*[-\*_]{3,}[\s]*$/gm, '')
+        // 여러 공백을 하나로
+        .replace(/\s+/g, ' ')
+        .trim()
+        .substring(0, 140)
+        .concat('', '...')
+    );
+  };
+
   useEffect(() => {
     convertMarkdown();
-    onChange(markdown);
+    const plainText = convertPlainText(markdown);
+    onChange(markdown, plainText);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [markdown]);
 

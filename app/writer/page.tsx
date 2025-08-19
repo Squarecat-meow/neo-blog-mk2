@@ -14,6 +14,7 @@ interface IPost {
   categoryId: number;
   title: string;
   body: string;
+  summary: string;
   thumbnailImgUrl: string;
 }
 
@@ -27,6 +28,8 @@ const mutatePost = async (data: IPost) => {
 
   return await res.json();
 };
+
+export const dynamic = 'force-dynamic';
 
 export default function Page() {
   const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
@@ -46,6 +49,7 @@ export default function Page() {
       categoryId: e.categoryId,
       title: e.title,
       body: e.body,
+      summary: e.summary,
       thumbnailImgUrl: thumbnail ?? '',
     });
   };
@@ -76,7 +80,12 @@ export default function Page() {
               글쓰기
             </Button>
           </form>
-          <Editor onChange={(body) => setValue('body', body)} />
+          <Editor
+            onChange={(markdown, plainText) => {
+              setValue('body', markdown);
+              setValue('summary', plainText);
+            }}
+          />
         </article>
       </section>
       <ConfirmPostModal

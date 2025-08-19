@@ -26,7 +26,7 @@ export default function PostListItem({ post }: { post: IPostWithCategory }) {
           <span className="text-sm font-light">|</span>
           <span className="text-sm font-light">{post.category.name}</span>
         </div>
-        <p className="text-lg">{post.body}</p>
+        <p className="text-lg">{post.summary}</p>
       </div>
     </Link>
   );

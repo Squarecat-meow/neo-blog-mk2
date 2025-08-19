@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
       authorId: userId,
       title: data.title,
       body: data.body,
+      summary: data.summary,
       categoryId: category.id,
       thumbnailImgUrl: data.thumbnailImgUrl,
     },

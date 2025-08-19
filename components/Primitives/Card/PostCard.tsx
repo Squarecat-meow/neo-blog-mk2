@@ -33,7 +33,7 @@ export default function PostCard({ post }: { post: IPostWithCategory }) {
             <span className="font-light text-sm">{post.category.name}</span>
           </div>
         </div>
-        <p className="break-keep">{post.body}</p>
+        <p className="break-keep">{post.summary}</p>
       </div>
     </Link>
   );
