@@ -1,5 +1,5 @@
 import prismaClient from '@/lib/prisma';
-import { Bucket, s3 } from '@/lib/s3';
+import { Bucket, s3, uploadFile } from '@/lib/s3';
 import { IUser } from '@/types/UserType';
 import { isTokenValid, verifyToken } from '@/utils/token';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
@@ -23,24 +23,9 @@ export async function POST(req: NextRequest) {
     const parsedData = Object.fromEntries(data.entries()) as Partial<IUser>;
 
     if (profileImg && typeof profileImg !== 'string') {
-      const profileImgArrayBuffer = await profileImg.arrayBuffer();
-      const profileImgBuffer = Buffer.from(profileImgArrayBuffer);
-      const fileName = crypto.randomUUID();
+      const profileImgUrl = await uploadFile(profileImg);
 
-      const res = await s3.send(
-        new PutObjectCommand({
-          Bucket: Bucket,
-          Key: `profile-photo/${fileName}`,
-          Body: profileImgBuffer,
-          ContentType: 'image/png',
-        }),
-      );
-
-      if (res.$metadata.httpStatusCode !== 200) {
-        throw new Error('버킷에 업로드가 실패했습니다.');
-      }
-
-      parsedData.profileImgUrl = `https://${process.env.BACKBLAZE_BUCKET}.s3.${process.env.BACKBLAZE_REGION}.backblazeb2.com/profile-photo/${fileName}`;
+      parsedData.profileImgUrl = profileImgUrl;
     }
 
     const updatedUser = await prismaClient.user.update({
