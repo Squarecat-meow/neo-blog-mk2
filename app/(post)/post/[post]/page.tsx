@@ -51,7 +51,7 @@ export default async function Page({
         )}
         <span>{post.author.nickname}</span>
       </div>
-      <div className="prose">
+      <div className="prose-lg">
         <MDXRemote
           source={post.body}
           options={{
