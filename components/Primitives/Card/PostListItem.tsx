@@ -1,12 +1,6 @@
-import { IPost } from '@/types/PostTypes';
+import { IPostWithCategory } from '@/types/PostTypes';
 import dateParser from '@/utils/dateParser';
 import Link from 'next/link';
-
-interface IPostWithCategory extends IPost {
-  category: {
-    name: string;
-  };
-}
 
 export default function PostListItem({ post }: { post: IPostWithCategory }) {
   return (

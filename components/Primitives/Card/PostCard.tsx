@@ -1,9 +1,9 @@
-import { IPost } from '@/types/PostTypes';
+import { IPost, IPostWithCategory } from '@/types/PostTypes';
 import dateParser from '@/utils/dateParser';
 import { Camera } from 'lucide-react';
 import Link from 'next/link';
 
-export default function PostCard({ post }: { post: IPost }) {
+export default function PostCard({ post }: { post: IPostWithCategory }) {
   return (
     <Link
       href={`/post/${post.id}`}
@@ -30,7 +30,7 @@ export default function PostCard({ post }: { post: IPost }) {
                 : dateParser(post.createdAt)}
             </span>
             <span className="font-light"> | </span>
-            <span className="font-light text-sm">{post.categoryName}</span>
+            <span className="font-light text-sm">{post.category.name}</span>
           </div>
         </div>
         <p className="break-keep">{post.body}</p>

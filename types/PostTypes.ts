@@ -17,3 +17,9 @@ export interface IPost {
   createdAt: Date;
   updatedAt: Date | null;
 }
+
+export interface IPostWithCategory extends IPost {
+  category: {
+    name: string;
+  };
+}
