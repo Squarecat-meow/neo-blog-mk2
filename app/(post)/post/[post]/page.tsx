@@ -8,6 +8,7 @@ import Image from 'next/image';
 import NotFound from '@/app/not-found';
 import AuthorIntroduction from '@/components/Post/AuthorIntroduction';
 import { Separator } from '@radix-ui/themes';
+import MarkdownRenderer from '@/components/Post/MarkdownRenderer';
 
 export default async function Page({
   params,
@@ -62,21 +63,8 @@ export default async function Page({
           )}
           <span>{post.author.nickname}</span>
         </div>
-        <div className="prose-lg">
-          <MDXRemote
-            source={post.body}
-            options={{
-              mdxOptions: {
-                remarkPlugins: [remarkGfm],
-                rehypePlugins: [
-                  [rehypePrettyCode, { theme: 'catppuccin-frappe' }],
-                  rehypeCodeTitles,
-                ],
-              },
-            }}
-          />
-        </div>
-        <Separator size="4" className="my-4" />
+        <MarkdownRenderer>{post.body}</MarkdownRenderer>
+        <Separator size="4" className="my-12" />
         <AuthorIntroduction user={post.author} />
       </article>
     );
