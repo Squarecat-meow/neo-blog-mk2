@@ -20,7 +20,7 @@ export default function PostCard({ post }: { post: IPostWithCategory }) {
           <Camera className="stroke-slate-300" size={48} />
         </div>
       )}
-      <div className="mt-6 p-3">
+      <div className="p-3">
         <div className="mb-2">
           <header className="font-noto-serif text-2xl">{post.title}</header>
           <div className="space-x-2">
