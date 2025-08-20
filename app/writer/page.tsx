@@ -43,7 +43,7 @@ export default function Page() {
   });
 
   const onSubmit: SubmitHandler<IPost> = (e) => {
-    const thumbnail = e.body.match(/\(([^)]+)\)/)?.[1];
+    const thumbnail = e.body.match(/!\[.*?\]\((https?:\/\/[^\)]+)\)/)?.[1];
 
     mutation.mutate({
       categoryId: e.categoryId,
