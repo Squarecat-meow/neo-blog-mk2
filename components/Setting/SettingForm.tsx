@@ -15,7 +15,7 @@ interface ISettingForm {
   introduction: string | null;
 }
 
-export default function MyPageForm({ user }: { user: IUser }) {
+export default function SettingForm({ user }: { user: IUser }) {
   const [isLoading, setIsLoading] = useState(false);
   const { currentImg, changeCurrentImg } = useProfileImgCropperStore();
 
@@ -37,14 +37,19 @@ export default function MyPageForm({ user }: { user: IUser }) {
         formData.set('profileImgUrl', blob ?? '');
       }
 
-      fetch('/api/users/setting', {
+      const res = await fetch('/api/users/setting', {
         method: 'POST',
         body: formData,
       });
+
+      if (!res.ok) {
+        console.error(await res.text());
+      }
     } catch (err) {
       if (err instanceof Error) console.error(err.message);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -68,10 +73,10 @@ export default function MyPageForm({ user }: { user: IUser }) {
         <article className="col-span-2 flex flex-col gap-4 p-4">
           <Label label="닉네임" htmlFor="nickname">
             <Input
-              placeholder={user.nickname}
+              placeholder={user.nickname ?? '닉네임'}
               id="nickname"
               {...register('nickname', {
-                value: user.nickname,
+                value: user.nickname ?? '',
               })}
             />
           </Label>
@@ -89,7 +94,7 @@ export default function MyPageForm({ user }: { user: IUser }) {
             type="submit"
             disabled={isLoading}
           >
-            {isLoading ? '적용 완료!' : '적용'}
+            {isLoading ? '적용중...' : '적용'}
           </Button>
         </article>
       </form>
