@@ -2,10 +2,9 @@
 
 import { ILoginResponse, IUser } from '@/types/UserType';
 import { DropdownMenu } from '@radix-ui/themes';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Loader2Icon } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 export function ProfileButton() {
   const { data, isPending } = useQuery({
@@ -16,6 +15,7 @@ export function ProfileButton() {
 
       return data;
     },
+    staleTime: 15 * 60 * 1000,
   });
 
   if (isPending) {
