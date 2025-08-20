@@ -1,8 +1,7 @@
 import prismaClient from '@/lib/prisma';
-import { Bucket, s3, uploadFile } from '@/lib/s3';
+import { uploadFile } from '@/lib/s3';
 import { IUser } from '@/types/UserType';
 import { isTokenValid, verifyToken } from '@/utils/token';
-import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
