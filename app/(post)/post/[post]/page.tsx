@@ -6,6 +6,8 @@ import rehypeCodeTitles from 'rehype-code-titles';
 import remarkGfm from 'remark-gfm';
 import Image from 'next/image';
 import NotFound from '@/app/not-found';
+import AuthorIntroduction from '@/components/Post/AuthorIntroduction';
+import { Separator } from '@radix-ui/themes';
 
 export default async function Page({
   params,
@@ -22,8 +24,11 @@ export default async function Page({
       include: {
         author: {
           select: {
+            id: true,
+            userId: true,
             nickname: true,
             profileImgUrl: true,
+            introduction: true,
           },
         },
         category: {
@@ -71,6 +76,8 @@ export default async function Page({
             }}
           />
         </div>
+        <Separator size="4" className="my-4" />
+        <AuthorIntroduction user={post.author} />
       </article>
     );
   } catch (err) {
