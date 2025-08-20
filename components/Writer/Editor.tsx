@@ -52,7 +52,7 @@ export default function Editor({
 
   const convertMarkdown = async () => {
     const markdown = await editor.blocksToMarkdownLossy(editor.document);
-    setMarkdown(markdown);
+    setMarkdown(markdown.replace(/(?<!\\)</g, '\\<'));
   };
 
   const convertPlainText = (markdown: string) => {
