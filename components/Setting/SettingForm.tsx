@@ -28,7 +28,7 @@ export default function SettingForm({ user }: { user: IUser }) {
     try {
       let blob: Blob | null = null;
 
-      if (currentImg) {
+      if (currentImg && currentImg.includes('blob:')) {
         blob = await fetch(currentImg).then((r) => r.blob());
       }
 
@@ -48,7 +48,9 @@ export default function SettingForm({ user }: { user: IUser }) {
     } catch (err) {
       if (err instanceof Error) console.error(err.message);
     } finally {
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     }
   };
 

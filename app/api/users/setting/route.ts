@@ -25,6 +25,16 @@ export async function POST(req: NextRequest) {
       const profileImgUrl = await uploadFile(profileImg);
 
       parsedData.profileImgUrl = profileImgUrl;
+    } else {
+      const originalProfileImgUrl = await prismaClient.user.findUniqueOrThrow({
+        where: {
+          userId: jwtPayload.userId,
+        },
+        select: {
+          profileImgUrl: true,
+        },
+      });
+      parsedData.profileImgUrl = originalProfileImgUrl.profileImgUrl;
     }
 
     const updatedUser = await prismaClient.user.update({
