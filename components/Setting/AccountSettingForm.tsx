@@ -15,7 +15,7 @@ interface ISettingForm {
   introduction: string | null;
 }
 
-export default function SettingForm({ user }: { user: IUser }) {
+export default function AccountSettingForm({ user }: { user: IUser }) {
   const [isLoading, setIsLoading] = useState(false);
   const { currentImg, changeCurrentImg } = useProfileImgCropperStore();
 

@@ -40,6 +40,7 @@ export default function RootLayout({
               <main className="flex-1 w-full lg:w-3/4 p-6">{children}</main>
               <footer className="w-full h-24"></footer>
               <div id="portal" className="fixed top-0 left-0" />
+              <div id="global-loading" className="fixed top-0 left-0" />
             </Theme>
           </ReactQueryClientProvider>
         </ClientProvider>

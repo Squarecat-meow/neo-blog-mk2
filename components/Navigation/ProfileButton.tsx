@@ -5,17 +5,15 @@ import { DropdownMenu } from '@radix-ui/themes';
 import { useQuery } from '@tanstack/react-query';
 import { Loader2Icon } from 'lucide-react';
 import Link from 'next/link';
+import ky from 'ky';
 
 export function ProfileButton() {
   const { data, isPending } = useQuery({
     queryKey: ['user'],
     queryFn: async () => {
-      const res = await fetch('/api/users/me', { credentials: 'include' });
-      const data = (await res.json()) as ILoginResponse;
-
-      return data;
+      const res = await ky.get('/api/users/me').json<ILoginResponse>();
+      return res;
     },
-    staleTime: 15 * 60 * 1000,
   });
 
   if (isPending) {

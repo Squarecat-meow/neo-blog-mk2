@@ -37,7 +37,7 @@ export default function Page() {
         <h1 className="text-4xl font-noto-serif font-light">로그인</h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col items-center gap-8 mt-8"
+          className="flex flex-col items-center gap-4 mt-4"
         >
           <Label label="아이디" htmlFor="id">
             <Input
@@ -62,7 +62,7 @@ export default function Page() {
               </span>
             )}
           </Label>
-          <Button type="submit" variant="primary" className="w-full">
+          <Button type="submit" variant="primary" className="w-full mt-4">
             로그인
           </Button>
         </form>

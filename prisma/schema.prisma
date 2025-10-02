@@ -15,15 +15,15 @@ datasource db {
 }
 
 model User {
-  id            String  @id @default(cuid())
-  userId        String  @unique
-  password      String
-  nickname      String?
-  profileImgUrl String?
-  introduction  String?
-  refreshToken  String?
-  ownedCategories   Category[]
-  posts         Post[]
+  id              String     @id @default(cuid())
+  userId          String     @unique
+  password        String
+  nickname        String?
+  profileImgUrl   String?
+  introduction    String?
+  refreshToken    String?
+  ownedCategories Category[]
+  posts           Post[]
 }
 
 model Post {
@@ -45,10 +45,18 @@ model Category {
   name  String @unique
   posts Post[]
 
-  categoryOwner       User    @relation(fields: [categoryOwnerId], references: [id], onDelete: Cascade)
-  categoryOwnerId     String
+  categoryOwner   User   @relation(fields: [categoryOwnerId], references: [id], onDelete: Cascade)
+  categoryOwnerId String
 
-  parentCategoryId  Int?
-  parentCategory  Category?     @relation("CategoryHierarchy", fields: [parentCategoryId], references: [id])
-  subCategories   Category[]    @relation("CategoryHierarchy")
+  parentCategoryId Int?
+  parentCategory   Category?  @relation("CategoryHierarchy", fields: [parentCategoryId], references: [id])
+  subCategories    Category[] @relation("CategoryHierarchy")
+}
+
+model Keomoji {
+  id       Int      @id @default(autoincrement())
+  name     String   @unique
+  category String?
+  url      String
+  aliases  String[]
 }
