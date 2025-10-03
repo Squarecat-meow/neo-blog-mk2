@@ -1,13 +1,55 @@
 'use client';
 
 import '@blocknote/core/fonts/inter.css';
-import { useCreateBlockNote } from '@blocknote/react';
+import {
+  DefaultReactSuggestionItem,
+  SuggestionMenuController,
+  useCreateBlockNote,
+} from '@blocknote/react';
 import { BlockNoteView } from '@blocknote/mantine';
 import '@blocknote/mantine/style.css';
 import { codeBlock } from '@blocknote/code-block';
 import { useEffect, useState } from 'react';
 import { Loading } from './Loading';
-import { BlockNoteSchema, defaultBlockSpecs } from '@blocknote/core';
+import {
+  BlockNoteSchema,
+  defaultBlockSpecs,
+  defaultInlineContentSpecs,
+  filterSuggestionItems,
+} from '@blocknote/core';
+import { Keomoji } from './Keomoji';
+
+const schema = BlockNoteSchema.create({
+  blockSpecs: {
+    ...defaultBlockSpecs,
+    loading: Loading,
+  },
+  inlineContentSpecs: {
+    ...defaultInlineContentSpecs,
+    keomoji: Keomoji,
+  },
+});
+
+const getKeomojiSuggestion = (
+  editor: typeof schema.BlockNoteEditor,
+): DefaultReactSuggestionItem[] => {
+  const keomoji = ['asdf', 'zxcv', 'qwer'];
+
+  return keomoji.map((el) => ({
+    title: el,
+    onItemClick: () => {
+      editor.insertInlineContent([
+        {
+          type: 'keomoji',
+          props: {
+            keomoji: el,
+          },
+        },
+        '',
+      ]);
+    },
+  }));
+};
 
 export default function Editor({
   onChange,
@@ -15,13 +57,6 @@ export default function Editor({
   onChange: (markdown: string, plainText: string) => void;
 }) {
   const [markdown, setMarkdown] = useState('');
-
-  const schema = BlockNoteSchema.create({
-    blockSpecs: {
-      ...defaultBlockSpecs,
-      loading: Loading,
-    },
-  });
 
   const editor = useCreateBlockNote({
     schema,
@@ -93,5 +128,14 @@ export default function Editor({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [markdown]);
 
-  return <BlockNoteView editor={editor} onChange={convertMarkdown} />;
+  return (
+    <BlockNoteView editor={editor} onChange={convertMarkdown}>
+      <SuggestionMenuController
+        triggerCharacter={':'}
+        getItems={async (query) =>
+          filterSuggestionItems(getKeomojiSuggestion(editor), query)
+        }
+      />
+    </BlockNoteView>
+  );
 }
