@@ -50,9 +50,14 @@ export default function Editor({
     },
   });
 
+  function removeImageCaptionDuplicates(markdown: string) {
+    return markdown.replace(/!\[(.+?)\]\((.+?)\)\s*\n\1/g, '![$1]($2)');
+  }
+
   const convertMarkdown = async () => {
     const markdown = await editor.blocksToMarkdownLossy(editor.document);
-    setMarkdown(markdown.replace(/(?<!\\)</g, '\\<'));
+    const cleaned = removeImageCaptionDuplicates(markdown);
+    setMarkdown(cleaned.replace(/(?<!\\)</g, '\\<'));
   };
 
   const convertPlainText = (markdown: string) => {

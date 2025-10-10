@@ -17,6 +17,12 @@ export default function MarkdownRenderer({ children }: { children: string }) {
           a: ({ children, href }) => (
             <OpenGraphCard href={href}>{children}</OpenGraphCard>
           ),
+          img: ({ alt, src }) => (
+            <>
+              <img src={src} alt={alt} style={{ marginBottom: 0 }} />
+              <span className="text-sm text-gray-500">{alt}</span>
+            </>
+          ),
         }}
       >
         {children}
