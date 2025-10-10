@@ -18,6 +18,9 @@ export default async function Page({
         },
       },
     },
+    orderBy: {
+      createdAt: 'asc',
+    },
   });
   return (
     <section className="flex flex-col gap-4">
