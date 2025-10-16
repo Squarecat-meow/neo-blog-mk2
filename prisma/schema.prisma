@@ -15,15 +15,16 @@ datasource db {
 }
 
 model User {
-  id              String     @id @default(cuid())
-  userId          String     @unique
-  password        String
-  nickname        String?
-  profileImgUrl   String?
-  introduction    String?
-  refreshToken    String?
-  ownedCategories Category[]
-  posts           Post[]
+  id                 String        @id @default(cuid())
+  userId             String        @unique
+  password           String
+  nickname           String?
+  profileImgUrl      String?
+  introduction       String?
+  refreshToken       String?
+  ownedCategories    Category[]
+  posts              Post[]
+  appliedAnniversary Anniversary[]
 }
 
 model Post {
@@ -53,10 +54,9 @@ model Category {
   subCategories    Category[] @relation("CategoryHierarchy")
 }
 
-model Keomoji {
-  id       Int      @id @default(autoincrement())
-  name     String   @unique
-  category String?
-  url      String
-  aliases  String[]
+model Anniversary {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+  targetUser  User[]
 }
