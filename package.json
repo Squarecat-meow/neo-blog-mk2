@@ -23,6 +23,7 @@
     "@types/mdx": "^2.0.13",
     "@uiw/react-heat-map": "^2.3.3",
     "bcrypt": "^6.0.0",
+    "date-fns": "^4.1.0",
     "graphql": "^16.11.0",
     "jose": "^6.0.12",
     "ky": "^1.11.0",
