@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "docker:start": "node server.js",
+    "lint": "next lint",
+    "db:deploy": "npx prisma migrate deploy"
   },
   "dependencies": {
     "@apollo/client": "^3.13.9",
