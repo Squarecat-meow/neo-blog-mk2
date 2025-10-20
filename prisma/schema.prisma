@@ -15,16 +15,15 @@ datasource db {
 }
 
 model User {
-  id                 String        @id @default(cuid())
-  userId             String        @unique
-  password           String
-  nickname           String?
-  profileImgUrl      String?
-  introduction       String?
-  refreshToken       String?
-  ownedCategories    Category[]
-  posts              Post[]
-  appliedAnniversary Anniversary[]
+  id              String     @id @default(cuid())
+  userId          String     @unique
+  password        String
+  nickname        String?
+  profileImgUrl   String?
+  introduction    String?
+  refreshToken    String?
+  ownedCategories Category[]
+  posts           Post[]
 }
 
 model Post {
@@ -58,5 +57,6 @@ model Anniversary {
   id          Int     @id @default(autoincrement())
   name        String
   description String?
-  targetUser  User[]
+  startDay    String
+  endDay      String
 }
