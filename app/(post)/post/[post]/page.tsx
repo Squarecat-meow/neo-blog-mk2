@@ -1,14 +1,42 @@
 import prismaClient from '@/lib/prisma';
 import dateParser from '@/utils/dateParser';
-import { MDXRemote } from 'next-mdx-remote-client/rsc';
-import rehypePrettyCode from 'rehype-pretty-code';
-import rehypeCodeTitles from 'rehype-code-titles';
-import remarkGfm from 'remark-gfm';
 import Image from 'next/image';
 import NotFound from '@/app/not-found';
 import AuthorIntroduction from '@/components/Post/AuthorIntroduction';
 import { Separator } from '@radix-ui/themes';
 import MarkdownRenderer from '@/components/Post/MarkdownRenderer';
+import { Metadata } from 'next';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ post: string }>;
+}): Promise<Metadata> {
+  const { post: postIdString } = await params;
+  const postId = parseInt(postIdString);
+
+  const post = await prismaClient.post.findUnique({
+    where: {
+      id: postId,
+    },
+  });
+
+  if (!post) return {};
+
+  return {
+    title: post.title,
+    icons: '/favicon.ico',
+    openGraph: {
+      title: post.title,
+      url: `${process.env.APP_URL}/post/${postId}`,
+      siteName: '놋치미나의 아늑한 집',
+      type: 'article',
+      authors: post.authorId,
+      locale: 'ko_KR',
+      ...(post.thumbnailImgUrl && { images: post.thumbnailImgUrl }),
+    },
+  };
+}
 
 export default async function Page({
   params,
