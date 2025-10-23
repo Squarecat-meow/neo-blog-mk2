@@ -14,7 +14,7 @@ export default async function Sidebar() {
   });
 
   return (
-    <nav className="w-1/5 sticky top-0 h-fit">
+    <nav className="w-1/5 sticky top-0 h-fit hidden md:block">
       <h1 className="text-2xl mb-2">카테고리</h1>
       {users.map((user) => (
         <div key={user.nickname}>

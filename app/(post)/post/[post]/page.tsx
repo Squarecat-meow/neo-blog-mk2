@@ -69,7 +69,7 @@ export default async function Page({
       },
     });
     return (
-      <article className="w-5/6 flex flex-col mt-6">
+      <article className="w-full md:w-5/6 flex flex-col mt-6">
         <h1 className="text-5xl font-noto-serif text-center mb-4">
           {post.title}
         </h1>

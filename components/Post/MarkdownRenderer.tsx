@@ -3,6 +3,7 @@ import remarkGfm from 'remark-gfm';
 import rehypePrism from 'rehype-prism-plus';
 import 'prismjs/themes/prism-tomorrow.css';
 import OpenGraphCard from './OpenGraphCard';
+import { Text } from '@radix-ui/themes';
 
 export default function MarkdownRenderer({ children }: { children: string }) {
   return (
@@ -20,8 +21,13 @@ export default function MarkdownRenderer({ children }: { children: string }) {
           img: ({ alt, src }) => (
             <>
               <img src={src} alt={alt} style={{ marginBottom: 0 }} />
-              <span className="text-sm text-gray-500">{alt}</span>
+              <span className="text-xs md:text-sm text-gray-500">{alt}</span>
             </>
+          ),
+          p: ({ children }) => (
+            <Text as="p" mt="2" className="text-sm md:text-md lg:text-lg">
+              {children}
+            </Text>
           ),
         }}
       >
