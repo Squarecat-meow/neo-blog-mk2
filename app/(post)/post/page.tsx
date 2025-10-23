@@ -1,6 +1,8 @@
 import PostListItem from '@/components/Primitives/Card/PostListItem';
 import prismaClient from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page() {
   const posts = await prismaClient.post.findMany({
     include: {
@@ -11,12 +13,12 @@ export default async function Page() {
       },
     },
     orderBy: {
-      createdAt: 'asc',
+      createdAt: 'desc',
     },
   });
   return (
     <section className="flex flex-col gap-4">
-      {posts.reverse().map((el) => (
+      {posts.map((el) => (
         <PostListItem post={el} key={el.id} />
       ))}
     </section>
