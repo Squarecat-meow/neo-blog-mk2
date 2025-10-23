@@ -9,6 +9,8 @@ import {
   sub,
 } from 'date-fns';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page() {
   const today = Date.now();
   const beforeTodayDate = sub(today, { days: 8 });
