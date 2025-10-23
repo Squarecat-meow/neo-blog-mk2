@@ -19,6 +19,7 @@
 
 # production
 /build
+*.tar
 
 # misc
 .DS_Store
@@ -42,3 +43,4 @@ docker.env
 next-env.d.ts
 
 /app/generated/prisma
+docker-compose.yml
