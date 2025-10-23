@@ -28,6 +28,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // TODO: 구글 검색엔진 메타데이터 넣기
   return (
     <html lang="ko" className={`${plex.variable} ${notoSerif.variable}`}>
       <body>

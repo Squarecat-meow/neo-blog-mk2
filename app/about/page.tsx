@@ -3,6 +3,7 @@ import { Avatar } from '@radix-ui/themes';
 
 export default async function Page() {
   try {
+    // TODO: 둘 중 한 사람 없어도 표시되게
     const left = await prismaClient.user.findUniqueOrThrow({
       where: {
         userId: 'yozumina',
