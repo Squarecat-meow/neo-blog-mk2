@@ -17,15 +17,15 @@ export async function POST(req: NextRequest) {
     accessToken = newAccessToken;
   }
 
-  return NextResponse.json({ authenticated: true }).cookies.set(
-    'accessToken',
-    accessToken,
-    {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: ACCESSTOKEN_EXPIRES,
-      path: '/',
-    },
-  );
+  const res = NextResponse.json({ authenticated: true });
+
+  res.cookies.set('accessToken', accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: ACCESSTOKEN_EXPIRES,
+    path: '/',
+  });
+
+  return res;
 }
