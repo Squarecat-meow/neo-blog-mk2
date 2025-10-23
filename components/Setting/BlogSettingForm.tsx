@@ -1,6 +1,6 @@
 'use client';
 
-import { Anniversary } from '@/app/generated/prisma';
+import { Anniversary } from '@prisma/client';
 import { Button, TextArea, TextField } from '@radix-ui/themes';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import ky from 'ky';

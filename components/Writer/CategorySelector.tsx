@@ -1,7 +1,7 @@
 import { Select } from '@radix-ui/themes';
 import { useQuery } from '@tanstack/react-query';
 import { Loader2Icon } from 'lucide-react';
-import { Category } from '../../app/generated/prisma';
+import { Category } from '@prisma/client';
 import { useState } from 'react';
 import NewCategoryModal from '@/components/Writer/NewCategoryModal';
 

@@ -1,4 +1,4 @@
-import { Anniversary } from '@/app/generated/prisma';
+import { Anniversary } from '@prisma/client';
 import prismaClient from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 
