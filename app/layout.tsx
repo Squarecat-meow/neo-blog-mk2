@@ -9,6 +9,13 @@ import ReactQueryClientProvider from '@/lib/queryClient';
 export const metadata: Metadata = {
   title: '놋치미나의 아늑한 집',
   description: '요즈미나와 유놋치의 아늑한 집',
+  openGraph: {
+    title: '놋치미나의 아늑한 집',
+    url: process.env.APP_URL,
+    siteName: '놋치미나의 아늑한 집',
+    type: 'website',
+    locale: 'ko_KR',
+  },
 };
 
 const plex = IBM_Plex_Sans_KR({
