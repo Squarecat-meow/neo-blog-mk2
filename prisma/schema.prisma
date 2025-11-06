@@ -37,6 +37,7 @@ model Post {
   summary         String
   createdAt       DateTime  @default(now())
   updatedAt       DateTime?
+  reaction        Json?
 }
 
 model Category {
