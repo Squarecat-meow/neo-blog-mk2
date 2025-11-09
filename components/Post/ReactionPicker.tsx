@@ -7,9 +7,15 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import ky from 'ky';
 import { reactionArray } from '@/types/ReactionType';
 
-export default function ReactionPicker({ postId }: { postId: number }) {
+export default function ReactionPicker({
+  postId,
+  isActive,
+}: {
+  postId: number;
+  isActive: boolean;
+}) {
   const [showReactions, setShowReactions] = useState(false);
-  const reactionPickerRef = useRef<HTMLDivElement>(null);
+  const reactionPickerRef = useRef<HTMLButtonElement>(null);
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationKey: ['reaction'],
@@ -75,8 +81,9 @@ export default function ReactionPicker({ postId }: { postId: number }) {
   });
   return (
     <div className="relative mt-12">
-      <motion.div
+      <motion.button
         onClick={handleToggleReaction}
+        disabled={!isActive}
         animate={showReactions ? 'active' : 'inactive'}
         variants={{
           inactive: {
@@ -86,11 +93,11 @@ export default function ReactionPicker({ postId }: { postId: number }) {
             rotate: 0,
           },
         }}
-        className="h-10 grid place-items-center aspect-square border border-gray-300 rounded-full hover:bg-gray-300 transition-colors"
+        className="h-10 grid place-items-center aspect-square border border-gray-300 rounded-full hover:bg-gray-300 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
         ref={reactionPickerRef}
       >
         <PlusIcon />
-      </motion.div>
+      </motion.button>
       <AnimatePresence>
         {showReactions && (
           <motion.ul

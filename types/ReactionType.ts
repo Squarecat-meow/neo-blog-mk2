@@ -10,8 +10,15 @@ export interface IReaction {
 }
 
 export interface IReactionData {
+  id: string;
   reaction: string;
   count: number;
+}
+
+export interface IReactionRes {
+  reaction: string;
+  count: number;
+  isActive: boolean;
 }
 
 export const reactionArray = [

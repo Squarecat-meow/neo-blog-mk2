@@ -8,6 +8,7 @@ import MarkdownRenderer from '@/components/Post/MarkdownRenderer';
 import { Metadata } from 'next';
 import ReactionPicker from '@/components/Post/ReactionPicker';
 import ReactionViewer from '@/components/Post/ReactionViewer';
+import Reaction from '@/components/Post/Reaction';
 
 export async function generateMetadata({
   params,
@@ -95,10 +96,7 @@ export default async function Page({
           <span>{post.author.nickname}</span>
         </div>
         <MarkdownRenderer>{post.body}</MarkdownRenderer>
-        <div className="flex items-end gap-2">
-          <ReactionPicker postId={post.id} />
-          <ReactionViewer reactionJson={post.reaction} postId={post.id} />
-        </div>
+        <Reaction postId={post.id} />
         <Separator size="4" className="my-12" />
         <AuthorIntroduction user={post.author} />
       </article>

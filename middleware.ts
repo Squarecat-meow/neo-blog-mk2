@@ -3,17 +3,40 @@ import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { ACCESSTOKEN_EXPIRES } from './constant/tokenTime';
 
+function isProtectedRoute(pathname: string): boolean {
+  const protectedRoute = [
+    '/setting',
+    '/writer',
+    '/api/users/me',
+    '/api/setting/:path*',
+    '/api/writer/:path*',
+  ];
+  return protectedRoute.some((route) => pathname.startsWith(route));
+}
+
 export async function middleware(request: NextRequest) {
   const cookieStore = await cookies();
+  const response = NextResponse.next();
 
   const accessToken = cookieStore.get('accessToken');
   const refreshToken = cookieStore.get('refreshToken');
+  const anonymousId = request.cookies.get('anonymous_id')?.value;
 
-  if (!refreshToken) {
-    return NextResponse.json({ authenticated: false });
+  if (!refreshToken && isProtectedRoute(request.nextUrl.pathname)) {
+    return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  if (!accessToken) {
+  if (!refreshToken && !anonymousId) {
+    response.cookies.set('anonymous_id', crypto.randomUUID(), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 365,
+      path: '/',
+    });
+
+    return response;
+  } else if (!accessToken && refreshToken) {
     try {
       const newAccessToken = await verifyAndRefreshAccessToken(
         refreshToken.value,
@@ -21,9 +44,7 @@ export async function middleware(request: NextRequest) {
 
       if (!newAccessToken) return NextResponse.json({ authenticatd: false });
 
-      const res = NextResponse.next();
-
-      res.cookies.set('accessToken', newAccessToken, {
+      response.cookies.set('accessToken', newAccessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
@@ -31,31 +52,28 @@ export async function middleware(request: NextRequest) {
         path: '/',
       });
 
-      return res;
+      return response;
     } catch (err) {
       console.error('액세스 토큰 재발급 중 오류 발생:', err);
       return NextResponse.redirect(new URL('/login', request.url));
     }
+  } else if (refreshToken && anonymousId) {
+    response.cookies.delete('anonymous_id');
+
+    return response;
+  } else if (refreshToken && accessToken) {
+    const [isAccessTokenValid, isRefreshTokenValid] = await Promise.all([
+      isTokenValid(accessToken.value),
+      isTokenValid(refreshToken.value),
+    ]);
+
+    if (!isAccessTokenValid || !isRefreshTokenValid) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
   }
-
-  const [isAccessTokenValid, isRefreshTokenValid] = await Promise.all([
-    isTokenValid(accessToken.value),
-    isTokenValid(refreshToken.value),
-  ]);
-
-  if (!isAccessTokenValid || !isRefreshTokenValid) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
-
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {
-  matcher: [
-    '/setting',
-    '/writer',
-    '/api/users/me',
-    '/api/writer/:path*',
-    '/api/setting/:path*',
-  ],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
