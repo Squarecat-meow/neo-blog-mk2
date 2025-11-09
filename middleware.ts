@@ -18,31 +18,34 @@ export async function middleware(request: NextRequest) {
   const cookieStore = await cookies();
   const response = NextResponse.next();
 
-  const accessToken = cookieStore.get('accessToken');
-  const refreshToken = cookieStore.get('refreshToken');
+  const accessToken = cookieStore.get('accessToken')?.value;
+  const refreshToken = cookieStore.get('refreshToken')?.value;
   const anonymousId = request.cookies.get('anonymous_id')?.value;
 
-  if (!refreshToken && isProtectedRoute(request.nextUrl.pathname)) {
-    return NextResponse.redirect(new URL('/login', request.url));
+  if (!refreshToken && !accessToken) {
+    if (isProtectedRoute(request.nextUrl.pathname)) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+
+    if (!anonymousId) {
+      response.cookies.set('anonymous_id', crypto.randomUUID(), {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 365,
+        path: '/',
+      });
+
+      return response;
+    }
   }
 
-  if (!refreshToken && !anonymousId) {
-    response.cookies.set('anonymous_id', crypto.randomUUID(), {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 365,
-      path: '/',
-    });
-
-    return response;
-  } else if (!accessToken && refreshToken) {
+  if (!accessToken && refreshToken) {
     try {
-      const newAccessToken = await verifyAndRefreshAccessToken(
-        refreshToken.value,
-      );
+      const newAccessToken = await verifyAndRefreshAccessToken(refreshToken);
 
-      if (!newAccessToken) return NextResponse.json({ authenticatd: false });
+      if (!newAccessToken)
+        return NextResponse.redirect(new URL('/login', request.url));
 
       response.cookies.set('accessToken', newAccessToken, {
         httpOnly: true,
@@ -57,17 +60,23 @@ export async function middleware(request: NextRequest) {
       console.error('액세스 토큰 재발급 중 오류 발생:', err);
       return NextResponse.redirect(new URL('/login', request.url));
     }
-  } else if (refreshToken && anonymousId) {
-    response.cookies.delete('anonymous_id');
+  }
 
-    return response;
-  } else if (refreshToken && accessToken) {
+  if (refreshToken && accessToken) {
+    if (anonymousId) {
+      response.cookies.delete('anonymous_id');
+
+      return response;
+    }
+
     const [isAccessTokenValid, isRefreshTokenValid] = await Promise.all([
-      isTokenValid(accessToken.value),
-      isTokenValid(refreshToken.value),
+      isTokenValid(accessToken),
+      isTokenValid(refreshToken),
     ]);
 
     if (!isAccessTokenValid || !isRefreshTokenValid) {
+      response.cookies.delete('accessToken');
+      response.cookies.delete('refreshToken');
       return NextResponse.redirect(new URL('/login', request.url));
     }
   }
