@@ -81,6 +81,23 @@ export default function ReactionPicker({
   });
   return (
     <div className="relative mt-12">
+      <motion.span
+        className={`text-xs absolute ${isActive ? '-bottom-2 left-12' : '-bottom-8 left-12'} w-max whitespace-pre-line`}
+        style={{ transformOrigin: 'top left' }}
+        animate={showReactions ? 'active' : 'inactive'}
+        variants={{
+          inactive: {
+            rotate: 20,
+            opacity: 1,
+          },
+          active: {
+            rotate: 0,
+            opacity: 0,
+          },
+        }}
+      >
+        {isActive ? '← 리액션을 남겨주세요' : '다시 클릭하면\n지울 수 있어요'}
+      </motion.span>
       <motion.button
         onClick={handleToggleReaction}
         disabled={!isActive}

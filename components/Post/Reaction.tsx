@@ -42,7 +42,7 @@ export default function Reaction({ postId }: { postId: number }) {
   const isActive = data.reactions.some((el) => el.isActive);
 
   return (
-    <div className="flex items-end gap-2">
+    <div className="flex items-end justify-start gap-2">
       <ReactionPicker postId={postId} isActive={!isActive} />
       <ReactionViewer postId={postId} reactions={data?.reactions} />
     </div>
