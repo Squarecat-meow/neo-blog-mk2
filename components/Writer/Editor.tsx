@@ -95,8 +95,11 @@ export default function Editor({
     convertMarkdown();
     const plainText = convertPlainText(markdown);
     onChange(markdown, plainText);
+    console.log(markdown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [markdown]);
 
-  return <BlockNoteView editor={editor} onChange={convertMarkdown} />;
+  return (
+    <BlockNoteView theme={'light'} editor={editor} onChange={convertMarkdown} />
+  );
 }
