@@ -46,7 +46,6 @@ export default async function Page({
 }: {
   params: Promise<{ post: string }>;
 }) {
-  // TODO: 댓글 구현
   const { post: id } = await params;
 
   try {
