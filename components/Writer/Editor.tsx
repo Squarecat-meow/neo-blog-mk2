@@ -100,6 +100,6 @@ export default function Editor({
   }, [markdown]);
 
   return (
-    <BlockNoteView theme={'light'} editor={editor} onChange={convertMarkdown} />
+    <BlockNoteView theme="light" editor={editor} onChange={convertMarkdown} />
   );
 }
