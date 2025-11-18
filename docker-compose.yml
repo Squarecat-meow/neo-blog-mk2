@@ -1,0 +1,40 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: ghcr.io/Squarecat-meow/neo-blog-mk2/app:latest
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    links:
+      - db
+    env_file:
+      - ./docker.env
+    networks:
+      - internal_network
+
+  db:
+    image: postgres:17-alpine
+    restart: always
+    volumes:
+      - db:/var/lib/postgresql/data
+    env_file:
+      - ./docker.env
+    networks:
+      - internal_network
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-postgres}']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  internal_network:
+    driver: bridge
+
+volumes:
+  db:
