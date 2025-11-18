@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: ghcr.io/Squarecat-meow/neo-blog-mk2/app:latest
+    image: ghcr.io/squarecat-meow/neo-blog-mk2/app:latest
     depends_on:
       db:
         condition: service_healthy
