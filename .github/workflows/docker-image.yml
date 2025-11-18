@@ -38,6 +38,9 @@ jobs:
             type=semver,pattern={{version}}
             type=sha
 
+      - name: Create env File
+        run: echo "${{ secrets.ENV_FILE }}" > .env
+
       - name: Build and push with docker-compose
         run: |
           docker compose build
