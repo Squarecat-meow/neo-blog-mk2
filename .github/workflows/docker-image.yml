@@ -40,7 +40,7 @@ jobs:
 
       - name: Create env File
         run: |
-          cat << EOF > docker.env
+          cat << EOF > .env
           APP_URL=${{ secrets.APP_URL }}
           EOF
       - name: Verify .env file (민감정보 제외하고 확인)
