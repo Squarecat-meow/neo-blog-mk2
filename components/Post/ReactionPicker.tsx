@@ -82,12 +82,12 @@ export default function ReactionPicker({
   return (
     <div className="relative mt-12">
       <motion.span
-        className={`text-xs absolute ${isActive ? '-bottom-2 left-12' : '-bottom-8 left-12'} w-max whitespace-pre-line`}
+        className={`text-xs absolute ${isActive ? '-bottom-0 left-12' : '-bottom-8 left-12'} w-max whitespace-pre-line`}
         style={{ transformOrigin: 'top left' }}
         animate={showReactions ? 'active' : 'inactive'}
         variants={{
           inactive: {
-            rotate: 20,
+            rotate: 10,
             opacity: 1,
           },
           active: {
