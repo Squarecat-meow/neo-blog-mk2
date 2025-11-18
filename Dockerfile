@@ -20,6 +20,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+ARG APP_URL
+ENV APP_URL=$APP_URL
+
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NEXT_PRIVATE_STANDALONE=true
@@ -27,11 +30,11 @@ ENV NEXT_PRIVATE_STANDALONE=true
 # 🔥 Prisma generate와 build를 함께 실행 (확실하게!)
 RUN \
   if [ -f yarn.lock ]; then \
-    yarn prisma generate && yarn run build; \
+  yarn prisma generate && yarn run build; \
   elif [ -f package-lock.json ]; then \
-    npx prisma generate && npm run build; \
+  npx prisma generate && npm run build; \
   elif [ -f pnpm-lock.yaml ]; then \
-    corepack enable pnpm && pnpm dlx prisma generate && pnpm run build; \
+  corepack enable pnpm && pnpm dlx prisma generate && pnpm run build; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
