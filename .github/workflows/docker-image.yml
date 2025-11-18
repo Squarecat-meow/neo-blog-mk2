@@ -39,7 +39,10 @@ jobs:
             type=sha
 
       - name: Create env File
-        run: echo "${{ secrets.ENV_FILE }}" > .env
+        run: |
+          cat << EOF > .env
+          APP_URL=${{ secrets.APP_URL }}
+          EOF
 
       - name: Build and push with docker-compose
         run: |
